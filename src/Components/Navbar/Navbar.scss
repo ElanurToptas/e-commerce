@@ -44,3 +44,38 @@
     }
 }
 
+.nav-login-cart{
+    display: flex;
+    align-items: center;
+    gap: 45px;
+
+    button{
+        width: 150px;
+        height:50px;
+        outline: none;
+        border: 1px solid #7a7a7a;
+        border-radius: 75px;
+        color:#515151;
+        font-size: 20px;
+        font-weight: 500;
+        background: white;
+
+        :active {
+            background: #f3f3f3;
+        }
+    }
+
+    .nav-cart-count{
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -38px;
+        margin-left: -55px;
+        border-radius: 11px;
+        font-size: 14px;
+        background: red;
+        color: white;
+    }
+}
