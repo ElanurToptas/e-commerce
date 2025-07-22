@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'; // Sayfa değişmeden içerik değişir.
+import { Link } from 'react-router-dom'; // Sayfa değişmeden içerik değişir.+
 import './Navbar.scss'
 
 import logo from '../Assets/Frontend_Assets/logo.png'
@@ -16,10 +16,10 @@ export const Navbar = () => {
             <p>SHOPPER</p>
         </div>
         <ul className='nav-menu'>
-            <li onClick={() => {setmenu("shop")}}><Link to='/'>Shop</Link>{menu==="shop" ? <hr/>:<></>}</li>
-            <li onClick={() => {setmenu("mens")}}><Link to='/mens'>Men</Link>{menu==="mens" ? <hr/>:<></>}</li>
-            <li onClick={() => {setmenu("womens")}}><Link to='/womens'>Women</Link>{menu==="womens" ? <hr/>:<></>}</li>
-            <li onClick={() => {setmenu("kids")}}><Link to='/kids'>Kids</Link>{menu==="kids" ? <hr/>:<></>}</li>
+            <li onClick={() => {setmenu("shop")}}><Link style={{textDecoration: 'none'}} to='/'>Shop</Link>{menu==="shop" ? <hr/>:<></>}</li>
+            <li onClick={() => {setmenu("mens")}}><Link style={{textDecoration: 'none'}} to='/mens'>Men</Link>{menu==="mens" ? <hr/>:<></>}</li>
+            <li onClick={() => {setmenu("womens")}}><Link style={{textDecoration: 'none'}} to='/womens'>Women</Link>{menu==="womens" ? <hr/>:<></>}</li>
+            <li onClick={() => {setmenu("kids")}}><Link style={{textDecoration: 'none'}} to='/kids'>Kids</Link>{menu==="kids" ? <hr/>:<></>}</li>
         </ul>
         <div className="nav-login-cart">
             <Link to='/login'><button>Login</button></Link>
