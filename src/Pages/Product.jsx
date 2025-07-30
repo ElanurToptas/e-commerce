@@ -11,7 +11,6 @@ export const Product = () => {
   const {all_products} = useContext(ShopContext);
   const {productId} = useParams();
   const product = all_products.find((e) => e.id === Number(productId));
-  console.log(productId);
   return (
     <div>
       <Breadcrum product={product}/>
