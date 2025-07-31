@@ -1,14 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { Link } from "react-router-dom"; // Sayfa değişmeden içerik değişir.
 import "./Navbar.scss";
 
 import logo from "../Assets/Frontend_Assets/logo.png";
 import cart_icon from "../Assets/Frontend_Assets/cart_icon.png";
 import { ShopContext } from "../../Context/ShopContext";
+import nav_dropdown from '../Assets/Frontend_Assets/nav_dropdown.png'
 
 export const Navbar = () => {
   const [menu, setmenu] = useState("shop");
   const {totalCart} = useContext(ShopContext)
+  const menuRef = useRef();
+
+  const dropdown_toggle = (e) => {
+    menuRef.current.classList.toggle('nav-menu-active');
+    e.target.classList.toggle('open');
+  }
 
   return (
     <div className="navbar">
@@ -16,7 +23,8 @@ export const Navbar = () => {
         <img src={logo} alt="" />
         <p>SHOPPER</p>
       </div>
-      <ul className="nav-menu">
+      <img className="nav-dropdown" onClick={dropdown_toggle} src={nav_dropdown} alt="" />
+      <ul ref={menuRef} className="nav-menu">
         <li
           onClick={() => {
             setmenu("shop");
