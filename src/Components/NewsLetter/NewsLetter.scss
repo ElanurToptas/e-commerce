@@ -53,3 +53,134 @@
         }
     }
 }
+
+
+@media(max-width:1280px){
+    .newsletter{
+        padding: 0px 100px;
+        margin-bottom: 120px;
+        gap: 20px;
+
+        h1{
+            font-size: 42px;
+        }
+
+        p{
+            font-size: 20px;
+        }
+
+        div{
+            width: 650px;
+            height: 64px;
+
+            input{
+                width: 400px;
+            }
+
+            button{
+                width: 160px;
+                height: 64px;
+            }
+        }
+    }
+}
+
+@media(max-width:1024px){
+    .newsletter{
+        padding: 0px 60px;
+        margin-bottom: 60px;
+
+        h1{
+            font-size: 36px;
+        }
+
+        p{
+            font-size: 16px;
+        }
+
+        div{
+            width: 600px;
+            height: 60px;
+
+            input{
+                width: 400px;
+                font-size: 15px;
+            }
+
+            button{
+                width: 160px;
+                height: 60px;
+                font-size: 15px;
+            }
+        }
+    }
+}
+
+@media(max-width:800px){
+    .newsletter{
+        margin-bottom: 30px;
+        height: 35vh;
+
+        h1{
+            font-size: 30px;
+        }
+
+        p{
+            font-size: 14px;
+        }
+
+        div{
+            width: 500px;
+            height: 50px;
+
+            input{
+                width: 300px;
+                font-size: 13px;
+            }
+
+            button{
+                width: 160px;
+                height: 50px;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@media(max-width:800px){
+    .newsletter{
+        height: 25vh;
+        width: 100%;
+        padding: 0;
+        gap: 15px;
+        margin-top: -200px;
+
+        h1{
+            font-size: 20px;
+        }
+
+        p{
+            font-size: 15px;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        div{
+            width: 400px;
+            height: 50px;
+
+            input{
+                width: 200px;
+                font-size: 13px;
+            }
+
+            button{
+                width: 100px;
+                height: 50px;
+                font-size: 13px;
+            }
+        }
+    }
+}
+
+
