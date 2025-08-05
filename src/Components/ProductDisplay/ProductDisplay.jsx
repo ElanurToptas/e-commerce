@@ -40,8 +40,8 @@ export const ProductDisplay = (props) => {
             ${product.new_price}
           </div>
         </div>
-        <div className="productdisplay-right-description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <div className="productdisplay-right-description"> 
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sint, autem non. Laudantium voluptatem cumque incidunt ab iusto itaque ut nihil vero maxime iure. Architecto, reprehenderit quam debitis libero officiis vero!
         </div>
         <div className="productDisplay-right-size">
           <h1>Select size</h1>
