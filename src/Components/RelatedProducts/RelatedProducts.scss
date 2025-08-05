@@ -45,7 +45,6 @@
 @media (max-width: 1024px) {
   .relatedProducts {
     height: 60vh;
-    margin-top: -160px;
 
     h1 {
       font-size: 30px;
@@ -64,12 +63,11 @@
 @media (max-width: 800px) {
   .relatedProducts {
     height: 50vh;
-    margin-top: -200px;
-    margin-bottom: 300px;
+    margin-bottom: 320px;
     gap: 6px;
 
     h1 {
-      font-size: 20px;
+      font-size: 24px;
     }
     hr {
       width: 100px;
@@ -87,8 +85,8 @@
 
 @media (max-width: 500px) {
   .relatedProducts {
+    margin-bottom: 0px;
     height: 90vh;
-    margin-top: -220px;
     .relatedProducts-item {
       display: grid;
       grid-template-columns: 1fr 1fr;
