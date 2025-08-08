@@ -1,10 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext , useState} from "react";
 import "./ProductDisplay.scss";
 import start_icon from "../Assets/Frontend_Assets/star_icon.png";
 import start_dull_icon from "../Assets/Frontend_Assets/star_dull_icon.png";
 import { ShopContext } from "../../Context/ShopContext";
 
 export const ProductDisplay = (props) => {
+   const [showCard, setShowCard] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart(product.id);      
+    setShowCard(true);           
+    setTimeout(() => setShowCard(false), 2000); 
+  };
 
   const { product } = props;
   const {addToCart} = useContext(ShopContext)
@@ -53,7 +60,12 @@ export const ProductDisplay = (props) => {
             <div>XXL</div>
           </div>
         </div>
-        <button onClick={() => {addToCart(product.id)}}>ADD TO CART</button>
+        <button onClick={handleAddToCart}>ADD TO CART</button>
+      {showCard && (
+        <div className="cart-message">
+          {product.name} sepete eklendi!
+        </div>
+      )}
         <p className="productDisplay-right-category">
           <span>
             Category:
