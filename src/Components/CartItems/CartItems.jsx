@@ -4,8 +4,16 @@ import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/Frontend_Assets/cart_cross_icon.png";
 
 export const CartItems = () => {
-  const { all_products, cartItems, removeFromCart, addToCart, deleteFromCart, totalAmount} =
-    useContext(ShopContext);
+  const {
+    all_products,
+    cartItems,
+    removeFromCart,
+    addToCart,
+    deleteFromCart,
+    selectedItems,
+    toggleSelectItem,
+    totalAmount,
+  } = useContext(ShopContext);
 
   return (
     <div className="cartItems">
@@ -24,6 +32,11 @@ export const CartItems = () => {
           return (
             <div key={e.id}>
               <div className="cartitems-format cartitems-format-main">
+                <input
+                  type="checkbox"
+                  checked={selectedItems[e.id] || false}
+                  onChange={() => toggleSelectItem(e.id)}
+                />
                 <img src={e.image} alt="" className="carticon-product-icon" />
                 <p>{e.name}</p>
                 <p>${e.new_price}</p>
@@ -77,7 +90,7 @@ export const CartItems = () => {
               <h3>${totalAmount()}</h3>
             </div>
           </div>
-           <button>PROCEED TO CHECKOUT</button>
+          <button>PROCEED TO CHECKOUT</button>
         </div>
         <div className="cartitems-promocode">
           <p>If you have promo code, Enter it here</p>
