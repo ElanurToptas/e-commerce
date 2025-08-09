@@ -17,7 +17,7 @@ export const CartItems = () => {
 
   return (
     <div className="cartItems">
-      <div className="cartitems-format-main">
+      <div className="cartitems-format-main-title cartitems-format-main">
         <p>Products</p>
         <p>Title</p>
         <p>Price</p>
