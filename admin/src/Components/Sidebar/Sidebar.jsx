@@ -1,7 +1,7 @@
 import React from 'react'
 import './Sidebar.css'
 import {Link} from 'react-router-dom'
-import add_prpduct from '../../Assets/Admin_Assets/Product_Cart.svg'
+import add_product from '../../Assets/Admin_Assets/Product_Cart.svg'
 import list_product from '../../Assets/Admin_Assets/Product_list_icon.svg'
 
 export const Sidebar = () => {
@@ -9,7 +9,7 @@ export const Sidebar = () => {
     <div className='sidebar'>
         <Link to={'/addproduct'} style={{textDecoration:"none"}}>
         <div className="sidebar-item">
-            <img src={add_prpduct} alt="" />
+            <img src={add_product} alt="" />
             <p>Add Product</p>
         </div>
         </Link>
