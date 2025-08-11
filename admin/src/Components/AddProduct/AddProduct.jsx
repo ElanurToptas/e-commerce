@@ -5,10 +5,11 @@ export const AddProduct = () => {
   const [image, setImage] = useState(false);
   const [productDetails, setProductDetails] = useState({
     name: "",
-    image: "",
+    images: "",
     category: "women",
     new_price: "",
     old_price: "",
+    id: Date.now(),
   });
 
   const imageHandler = (e) => {
@@ -19,8 +20,55 @@ export const AddProduct = () => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   };
 
+  const [cart, setCart] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const showCart = (msg) => {
+    setCart(true);
+    setMessage(msg);
+    setTimeout(() => setCart(false), 2000);
+  };
+
   const Add_Product = async () => {
-    console.log(productDetails);
+    try {
+    let responseData;
+    let product = productDetails;
+
+    let formData = new FormData();
+    formData.append("product", image);
+
+    await fetch("http://localhost:4000/upload", {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+      },
+      body: formData,
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        responseData = data;
+      });
+
+    if (responseData.success) {
+      product.images = responseData.image_url;
+      console.log(product);
+      await fetch("http://localhost:4000/addproduct", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product),
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+           showCart(data.success ? "Success" : "Failed");
+        });
+    }}
+    catch (error) {
+    // Bağlantı hataları buraya düşer
+    showCart("Failed");
+  }
   };
 
   return (
@@ -94,6 +142,25 @@ export const AddProduct = () => {
       >
         Add
       </button>
+
+      {cart && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "80px",
+            background: message === "Success" ? "#4caf50" : "#F44336",
+            color: " white",
+            padding: "12px 30px",
+            borderRadius: " 8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+            fontSize: "14px",
+            animation: "fadeInOut 2s ease forwards",
+          }}
+        >
+          <p>{message}</p>
+        </div>
+      )}
     </div>
   );
 };

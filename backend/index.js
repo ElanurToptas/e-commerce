@@ -101,7 +101,7 @@ const Product = mongoose.model("Product",{
         type:Date,
         default:Date.now,
     },
-    avilable:{
+    available:{
         type:Boolean,
         default:true,
     }
