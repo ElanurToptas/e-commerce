@@ -66,7 +66,7 @@ export const AddProduct = () => {
         });
     }}
     catch (error) {
-    // Bağlantı hataları buraya düşer
+    // Bağlantı hataları 
     showCart("Failed");
   }
   };
