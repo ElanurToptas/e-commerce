@@ -128,7 +128,6 @@ app.post('/addproduct',async (req,res)=>{
     });
     console.log(product);
     await product.save();
-     console.log("Saved");
      res.json({
         success:true,
         name:req.body.name,

@@ -1,5 +1,6 @@
 import React, { useActionState, useState } from "react";
 import "./AddProduct.css";
+import axios from "axios";
 import upload_area from "../../Assets/Admin_Assets/upload_area.svg";
 export const AddProduct = () => {
   const [image, setImage] = useState(false);
@@ -31,44 +32,41 @@ export const AddProduct = () => {
 
   const Add_Product = async () => {
     try {
-    let responseData;
-    let product = productDetails;
+      // let responseData;
+      let product = productDetails;
 
-    let formData = new FormData();
-    formData.append("product", image);
+      let formData = new FormData();
+      formData.append("product", image);
 
-    await fetch("http://localhost:4000/upload", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-      },
-      body: formData,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        responseData = data;
-      });
+      // Axios ile upload isteği
+      const { data: responseData } = await axios.post(
+        "http://localhost:4000/upload",
+        formData,
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    if (responseData.success) {
-      product.images = responseData.image_url;
-      console.log(product);
-      await fetch("http://localhost:4000/addproduct", {
-        method: "POST",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product),
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-           showCart(data.success ? "Success" : "Failed");
-        });
-    }}
-    catch (error) {
-    // Bağlantı hataları 
-    showCart("Failed");
-  }
+      if (responseData.success) {
+        product.images = responseData.image_url;
+        console.log(product);
+
+        const { data } = await axios.post(
+          "http://localhost:4000/addproduct",
+          product
+        );
+        showCart(data.success ? "Success" : "Failed");
+        console.log(data);
+      } else {
+        showCart("Failed");
+      }
+    } catch (error) {
+      // Bağlantı hataları
+      showCart("Failed");
+    }
   };
 
   return (
