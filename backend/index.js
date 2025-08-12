@@ -153,3 +153,9 @@ app.get('/allproducts', async(req,res)=>{
     console.log("all products fetched");
     res.send(products);
 })
+
+// Login-Signup
+
+//Schema creating for User model
+
+const Users = mongoose
