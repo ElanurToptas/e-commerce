@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken"); // JWT (JSON Web Token) kullanıcı oturum 
 const multer = require("multer"); // Multer dosya yükleme (file upload) işlemleri için kullanılır.
 const path = require("path"); // Node.js’in yerleşik modülü.
 // Dosya yollarını güvenli bir şekilde oluşturmak için kullanılır (__dirname ile birlikte).
-const cors =  require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
+const cors = require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
 const { error } = require("console");
 const { type } = require("os");
 
@@ -19,143 +19,217 @@ app.use(cors());
 
 // Her istek geldiğinde token doğrulanarak kullanıcının kimliği anlaşılır.
 
-
 // Database Connection With MongoDB
-mongoose.connect("mongodb+srv://elanurtoptass:Rt1fydARlfRdIbJt@cluster0.0cshlzq.mongodb.net/e-commerce");
-
+mongoose.connect(
+  "mongodb+srv://elanurtoptass:Rt1fydARlfRdIbJt@cluster0.0cshlzq.mongodb.net/e-commerce"
+);
 
 // API Creation
-app.get("/",(req,res)=>{
-    res.send("Express App is Running");
-})
-
+app.get("/", (req, res) => {
+  res.send("Express App is Running");
+});
 
 // Sunucucuyu başlatma
 app.listen(port, (error) => {
-    if(!error){
-        console.log("Server Running on Port" + port)
-    }
-    else {
-        console.log("Error" + error)
-    }
+  if (!error) {
+    console.log("Server Running on Port" + port);
+  } else {
+    console.log("Error" + error);
+  }
 });
-
 
 // Image Storage Engine
 const storage = multer.diskStorage({
-    destination: './upload/images', // dosyaların nereye kaydedileceği
-    filename: (req,file,cb) =>{ // dosyanın nasıl kaydedileceği
-        return cb(null,`${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-    }
-})
+  destination: "./upload/images", // dosyaların nereye kaydedileceği
+  filename: (req, file, cb) => {
+    // dosyanın nasıl kaydedileceği
+    return cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
 
-const upload = multer({storage:storage})
+const upload = multer({ storage: storage });
 // multer middleware olarak tanımlandı.
 // upload.single('product') → gelen form verisindeki product isimli alanı alıp dosya olarak işler.
 
-
-
 // Creating Upload Endpoint for images
-app.use('/images',express.static('upload/images'))
+app.use("/images", express.static("upload/images"));
 
-app.post("/upload", upload.single('product'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: "Dosya yüklenmedi" });
-    }
-    res.json({
-        success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
-    });
+app.post("/upload", upload.single("product"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "Dosya yüklenmedi" });
+  }
+  res.json({
+    success: 1,
+    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+  });
 });
 
 // product → yüklenen dosyanın formdaki alan adıdır. Backend bu ismi kullanarak doğru dosyayı alır.
 
-
 // Schema for Creating Products
-const Product = mongoose.model("Product",{
-    id:{
-        type:Number,
-        required: true,
-    },
-    name:{
-        type:String,
-        required:true,
-    },
-    images:{
-        type:String,
-        required:true,
-    },
-    category:{
-        type:String,
-        required:true,
-    },
-    new_price:{
-        type:Number,
-        required:true,
-    },
-    old_price:{
-        type:Number,
-        required:true,
-    },
-    date:{
-        type:Date,
-        default:Date.now,
-    },
-    available:{
-        type:Boolean,
-        default:true,
-    }
-})
+const Product = mongoose.model("Product", {
+  id: {
+    type: Number,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  images: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  new_price: {
+    type: Number,
+    required: true,
+  },
+  old_price: {
+    type: Number,
+    required: true,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  available: {
+    type: Boolean,
+    default: true,
+  },
+});
 
-app.post('/addproduct',async (req,res)=>{
-    let Products = await Product.find({});
-    let id;
-    if(Products.length>0){
-        let last_product_array = Products.slice(-1);
-        let last_product = last_product_array[0];
-        id = last_product.id+1;
-    }
-    else{
-        id = 1;
-    }
-    const product= new Product({
-        id: req.body.id,
-        name: req.body.name,
-        images: req.body.images,
-        category: req.body.category,
-        new_price:req.body.new_price,
-        old_price:req.body.old_price,
-    });
-    console.log(product);
-    await product.save();
-     res.json({
-        success:true,
-        name:req.body.name,
-     })
-})
-
+app.post("/addproduct", async (req, res) => {
+  let Products = await Product.find({});
+  let id;
+  if (Products.length > 0) {
+    let last_product_array = Products.slice(-1);
+    let last_product = last_product_array[0];
+    id = last_product.id + 1;
+  } else {
+    id = 1;
+  }
+  const product = new Product({
+    id: req.body.id,
+    name: req.body.name,
+    images: req.body.images,
+    category: req.body.category,
+    new_price: req.body.new_price,
+    old_price: req.body.old_price,
+  });
+  console.log(product);
+  await product.save();
+  res.json({
+    success: true,
+    name: req.body.name,
+  });
+});
 
 // Creating API for deleting products
-app.post('/removeproduct', async(req,res) => {
-    await Product.findOneAndDelete({
-        id:req.body.id
-    });
-    console.log("removed");
-    res.json({
-        success:true,
-        name:req.body.name,
-    })
-})
+app.post("/removeproduct", async (req, res) => {
+  await Product.findOneAndDelete({
+    id: req.body.id,
+  });
+  console.log("removed");
+  res.json({
+    success: true,
+    name: req.body.name,
+  });
+});
 
 // Creating API for getting all products
-app.get('/allproducts', async(req,res)=>{
-    let products = await Product.find({});
-    console.log("all products fetched");
-    res.send(products);
-})
+app.get("/allproducts", async (req, res) => {
+  let products = await Product.find({});
+  console.log("all products fetched");
+  res.send(products);
+});
 
 // Login-Signup
 
 //Schema creating for User model
 
-const Users = mongoose
+const Users = mongoose.model("Users", {
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+    unique: true,
+  },
+  password: {
+    type: String,
+  },
+  cartData: {
+    type: Object,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Creating Endpoint for Registering the User
+app.post("/signup", async (req, res) => {
+    // findOne ile eşleşen ilk mail adresi bulunuyor.
+  let check = await Users.findOne({ email: req.body.email });
+  if (check) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        errors: "existing user found with same email adress",
+      });
+  }
+
+  let cart = {}; // Yeni kullanıcı için boş sepet 
+  for (let i = 0; i < 300; i++) {
+    cart[i] = 0;
+  }
+  const user = new Users({
+    name: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    cartData: cart,
+  });
+
+  await user.save();
+
+  const data = {
+    user: {
+      id: user.id,
+    },
+  };
+
+  // token ile kullanıcının daha önce giriş yapıp yapmadığını kontrol ediyoruz.
+  const token = jwt.sign(data, "secret_ecom");
+  res.json({ success: true, token });
+});
+
+// Creating Endpoint for User Login 
+app.post('/login',async (req,res)=>{
+    let user = await Users.findOne({email:req.body.email});
+    if(user){
+        const passCompare = req.body.password === user.password;
+        if(passCompare){
+            const data = {
+                user:{
+                    id:user.id
+                }
+            }
+            const token = jwt.sign(data,'secret_ecom');
+            res.json({success:true,token})
+        }
+        else{
+            res.json({success:false,errors:"Wrong Password"});
+        }
+    }
+    else{
+        res.json({success:false,errors:"Wrong Email Id"})
+    }
+})

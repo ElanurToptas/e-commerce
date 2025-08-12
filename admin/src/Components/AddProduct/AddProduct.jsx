@@ -53,7 +53,7 @@ export const AddProduct = () => {
   };
 
   const [image, setImage] = useState(false);
-  const [cart, setCart] = useState(false);
+  const [mcart, setMcart] = useState(false);
   const [message, setMessage] = useState("");
 
   const [productDetails, setProductDetails] = useState({
@@ -73,10 +73,10 @@ export const AddProduct = () => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   };
 
-  const showCart = (msg) => {
-    setCart(true);
+  const showmcart = (msg) => {
+    setMcart(true);
     setMessage(msg);
-    setTimeout(() => setCart(false), 2000);
+    setTimeout(() => setMcart(false), 2000);
   };
 
   const Add_Product = async () => {
@@ -105,14 +105,14 @@ export const AddProduct = () => {
           "http://localhost:4000/addproduct",
           product
         );
-        showCart(data.success ? "Success" : "Failed");
+        showmcart(data.success ? "Success" : "Failed");
         console.log(data);
       } else {
-        showCart("Failed");
+        showmcart("Failed");
       }
     } catch (error) {
       // Bağlantı hataları
-      showCart("Failed");
+      showmcart("Failed");
     }
   };
 
@@ -201,7 +201,7 @@ export const AddProduct = () => {
         />
         {errors.image && (
           <small
-            style={{ color: "red", marginLeft: "-120px" }}
+            style={{ color: "red", marginLeft:"-120px" }}
             className="error"
           >
             {errors.image}
@@ -217,7 +217,7 @@ export const AddProduct = () => {
         Add
       </button>
 
-      {cart && (
+      {mcart && (
         <div
           style={{
             position: "fixed",
