@@ -6,7 +6,7 @@ import cross_icon from '../../Assets/Admin_Assets/cross_icon.png'
 export const ListProduct = () => {
   const [allproducts, setAllproducts] = useState([]);
 
- const fetchInfo = async () => {
+ const axiosInfo = async () => {
   try {
     const { data } = await axios.get("http://localhost:4000/allproducts");
     setAllproducts(data);
@@ -15,9 +15,27 @@ export const ListProduct = () => {
   }
 };
 
+// Component yüklendiğinde bir kere ürünleri getir
   useEffect(() => {
-    fetchInfo();
+    axiosInfo();
   },[])
+
+  const remove_product = async (id) => {
+     try {
+    const { data } = await axios.post(
+      "http://localhost:4000/removeproduct",
+      { id } 
+    )
+    await axiosInfo();
+    if (data.success) {
+      console.log(`${data.name ?? id} silindi`);
+    } else {
+      console.log("Silinemedi");
+    }
+  } catch (e) {
+    console.error("Silme hatası:", e);
+  }
+  }
 
   return (
     <div className="list-product">
@@ -39,7 +57,7 @@ export const ListProduct = () => {
             <p>${product.old_price}</p>
             <p>${product.new_price}</p>
             <p>{product.category}</p>
-            <img className="listproduct-remove-icon" src={cross_icon} alt="" />
+            <img onClick={() => {remove_product(product.id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
           </div>
           <hr />
           </> 
