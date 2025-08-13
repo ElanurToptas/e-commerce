@@ -1,23 +1,35 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { useState } from "react";
-import all_products from "../Components/Assets/Frontend_Assets/all_product";
+import axios from "axios";
 
 export const ShopContext = createContext(null); // ShopContext ile global state oluşturuyoruz.
-
 
 const getDefaultCart = () => {
   let cart = {}; // cart her ürünün sepette kaç tane olduğunu tutar.
   let selected = {};
-  all_products.forEach((product) => {
-    cart[product.id] = 0; // Sepetteki adet
-    selected[product.id] = false; // Seçili durumu
-  });
+
+  for (let index = 0; index < 300 + 1; index++) {
+    cart[index] = 0; // Sepetteki adet
+    selected[index] = false; // Seçili durumu
+  }
   return { cart, selected };
 };
 
 const ShopContextProvider = (props) => {
+  const [all_products, setAll_products] = useState([]);
   const [cartItems, setCartItems] = useState(getDefaultCart().cart);
   const [selectedItems, setSelectedItems] = useState(getDefaultCart().selected);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/allproducts")
+      .then((response) => {
+        setAll_products(response.data);
+      })
+      .catch((error) => {
+        console.error("Veriler alınırken hata oluştu:", error);
+      });
+  }, []);
 
   // State güncellemem eski state değerine bağlıysa bu yapı kullanılır. callback function
   const addToCart = (itemId) => {
@@ -40,6 +52,7 @@ const ShopContextProvider = (props) => {
     }));
   };
 
+  // for checkbox
   const toggleSelectItem = (itemId) => {
     setSelectedItems((prev) => ({
       ...prev,

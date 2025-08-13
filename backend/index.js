@@ -7,8 +7,7 @@ const multer = require("multer"); // Multer dosya yükleme (file upload) işleml
 const path = require("path"); // Node.js’in yerleşik modülü.
 // Dosya yollarını güvenli bir şekilde oluşturmak için kullanılır (__dirname ile birlikte).
 const cors = require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
-const { error } = require("console");
-const { type } = require("os");
+
 
 app.use(express.json()); // req.body üzerinden gelen JSON verisine ulaşabilmek için şarttır.
 app.use(cors());
@@ -147,7 +146,7 @@ app.post("/removeproduct", async (req, res) => {
 app.get("/allproducts", async (req, res) => {
   let products = await Product.find({});
   console.log("all products fetched");
-  res.send(products);
+  res.json(products);
 });
 
 // Login-Signup
@@ -232,4 +231,13 @@ app.post('/login',async (req,res)=>{
     else{
         res.json({success:false,errors:"Wrong Email Id"})
     }
+})
+
+//Creating Endpoint For Newcollection data
+
+app.get('/newcollections', async(req,res) =>{
+  let products= await Product.find({});
+  let newcollection = products.slice(1).slice(-8);
+  console.log("newcollection Fetched");
+  res.json(newcollection);
 })

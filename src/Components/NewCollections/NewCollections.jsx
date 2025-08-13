@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./NewCollections.scss";
-import new_collections from "../Assets/Frontend_Assets/new_collections";
+import axios from "axios";
 import { Item } from "../Item/Item";
 
 export const NewCollections = () => {
+  const [new_collections, setNew_collections] = useState([]);
+
+  useEffect(() => {
+     axios
+      .get("http://localhost:4000/newcollections")
+      .then((response) => {
+        
+        setNew_collections(response.data);
+      })
+      .catch((error) => {
+        console.error("Veriler alınırken hata oluştu:", error);
+      });
+  }, []);
+
   return (
     <div className="new-collections">
       <h1>NEW COLLECTİONS</h1>
@@ -15,7 +29,7 @@ export const NewCollections = () => {
               key={i}
               id={item.id}
               name={item.name}
-              image={item.image}
+              images={item.images}
               new_price={item.new_price}
               old_price={item.old_price}
             />
