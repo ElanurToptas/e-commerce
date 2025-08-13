@@ -8,7 +8,6 @@ const path = require("path"); // Node.js’in yerleşik modülü.
 // Dosya yollarını güvenli bir şekilde oluşturmak için kullanılır (__dirname ile birlikte).
 const cors = require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
 
-
 app.use(express.json()); // req.body üzerinden gelen JSON verisine ulaşabilmek için şarttır.
 app.use(cors());
 
@@ -73,6 +72,7 @@ const Product = mongoose.model("Product", {
   id: {
     type: Number,
     required: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -105,17 +105,11 @@ const Product = mongoose.model("Product", {
 });
 
 app.post("/addproduct", async (req, res) => {
-  let Products = await Product.find({});
-  let id;
-  if (Products.length > 0) {
-    let last_product_array = Products.slice(-1);
-    let last_product = last_product_array[0];
-    id = last_product.id + 1;
-  } else {
-    id = 1;
-  }
+  const last = await Product.findOne().sort({ id: -1 }).lean();
+  const nextId = last ? last.id + 1 : 1;
+
   const product = new Product({
-    id: req.body.id,
+    id: nextId,
     name: req.body.name,
     images: req.body.images,
     category: req.body.category,
@@ -133,7 +127,7 @@ app.post("/addproduct", async (req, res) => {
 // Creating API for deleting products
 app.post("/removeproduct", async (req, res) => {
   await Product.findOneAndDelete({
-    id: req.body.id,
+    id: nextId,
   });
   console.log("removed");
   res.json({
@@ -175,18 +169,16 @@ const Users = mongoose.model("Users", {
 
 // Creating Endpoint for Registering the User
 app.post("/signup", async (req, res) => {
-    // findOne ile eşleşen ilk mail adresi bulunuyor.
+  // findOne ile eşleşen ilk mail adresi bulunuyor.
   let check = await Users.findOne({ email: req.body.email });
   if (check) {
-    return res
-      .status(400)
-      .json({ 
-        success: false,
-        errors: "existing user found with same email adress",
-      });
+    return res.status(400).json({
+      success: false,
+      errors: "existing user found with same email adress",
+    });
   }
 
-  let cart = {}; // Yeni kullanıcı için boş sepet 
+  let cart = {}; // Yeni kullanıcı için boş sepet
   for (let i = 0; i < 300; i++) {
     cart[i] = 0;
   }
@@ -210,44 +202,45 @@ app.post("/signup", async (req, res) => {
   res.json({ success: true, token });
 });
 
-// Creating Endpoint for User Login 
-app.post('/login',async (req,res)=>{
-    let user = await Users.findOne({email:req.body.email});
-    if(user){
-        const passCompare = req.body.password === user.password;
-        if(passCompare){
-            const data = {
-                user:{
-                    id:user.id
-                }
-            }
-            const token = jwt.sign(data,'secret_ecom');
-            res.json({success:true,token})
-        }
-        else{
-            res.json({success:false,errors:"Wrong Password"});
-        }
+// Creating Endpoint for User Login
+app.post("/login", async (req, res) => {
+  let user = await Users.findOne({ email: req.body.email });
+  if (user) {
+    const passCompare = req.body.password === user.password;
+    if (passCompare) {
+      const data = {
+        user: {
+          id: user.id,
+        },
+      };
+      const token = jwt.sign(data, "secret_ecom");
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, errors: "Wrong Password" });
     }
-    else{
-        res.json({success:false,errors:"Wrong Email Id"})
-    }
-})
+  } else {
+    res.json({ success: false, errors: "Wrong Email Id" });
+  }
+});
 
 //Creating Endpoint For Newcollection data
 
-app.get('/newcollections', async(req,res) =>{
-  let products= await Product.find({});
+app.get("/newcollections", async (req, res) => {
+  let products = await Product.find({});
   let newcollection = products.slice(1).slice(-8);
   console.log("newcollection Fetched");
   res.json(newcollection);
-})
-
+});
 
 //Creating Endpoint For Popular data
 
-app.get('/popularinwomen', async(req,res) =>{
-  let products= await Product.find({category:"women"});
-  let popularinwomen = products.slice(0,4);
+app.get("/popularinwomen", async (req, res) => {
+  let products = await Product.find({ category: "women" });
+  let popularinwomen = products.slice(0, 4);
   console.log("Popular in women Fetched");
   res.json(popularinwomen);
-})
+});
+
+// app.post('/addtocart', async(req,res) => {
+//   console.log(req.body);
+// })

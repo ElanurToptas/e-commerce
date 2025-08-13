@@ -37,7 +37,7 @@ export const CartItems = () => {
                   checked={selectedItems[e.id] || false}
                   onChange={() => toggleSelectItem(e.id)}
                 />
-                <img src={e.image} alt="" className="carticon-product-icon" />
+                <img src={e.images} alt="" className="carticon-product-icon" />
                 <p>{e.name}</p>
                 <p>${e.new_price}</p>
                 <div className="buttons">

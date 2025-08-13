@@ -20,13 +20,13 @@ export const ProductDisplay = (props) => {
     <div className="productdisplay">
       <div className="productdisplay-left">
         <div className="productdisplay-img-list">
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
+          <img src={product.images} alt="" />
+          <img src={product.images} alt="" />
+          <img src={product.images} alt="" />
+          <img src={product.images} alt="" />
         </div>
         <div className="productdisplay-img">
-          <img className="productdisplay-main-img" src={product.image} alt="" />
+          <img className="productdisplay-main-img" src={product.images} alt="" />
         </div>
       </div>
       <div className="productdisplay-right">
@@ -61,6 +61,7 @@ export const ProductDisplay = (props) => {
           </div>
         </div>
         <button onClick={handleAddToCart}>ADD TO CART</button>
+        
       {showCard && (
         <div className="cart-message">
           {product.name} sepete eklendi!
