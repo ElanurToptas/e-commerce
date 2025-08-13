@@ -29,21 +29,42 @@ const ShopContextProvider = (props) => {
       .catch((error) => {
         console.error("Veriler alınırken hata oluştu:", error);
       });
+
+    if (localStorage.getItem("auth-token")) {
+      axios
+        .post(
+          "http://localhost:4000/getcart",
+          {}, 
+          {
+            headers: {
+              Accept: "application/json",
+              "auth-token": localStorage.getItem("auth-token"),
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          setCartItems(response.data);
+        })
+        .catch((error) => {
+          console.error("Get cart error:", error);
+        });
+    }
   }, []);
 
   // State güncellemem eski state değerine bağlıysa bu yapı kullanılır. callback function
   const addToCart = (itemId) => {
     setCartItems((prev) => {
-    const key = String(itemId);                  
-    const current = Number(prev[key] ?? 0);      
-    const next = current + 1;
-    return { ...prev, [key]: next };
-  });
+      const key = String(itemId);
+      const current = Number(prev[key] ?? 0);
+      const next = current + 1;
+      return { ...prev, [key]: next };
+    });
 
-  setSelectedItems((prev) => {
-    const key = String(itemId);
-    return { ...prev, [key]: true };
-  });
+    setSelectedItems((prev) => {
+      const key = String(itemId);
+      return { ...prev, [key]: true };
+    });
 
     if (localStorage.getItem("auth-token")) {
       axios
@@ -76,6 +97,26 @@ const ShopContextProvider = (props) => {
       ...prev,
       [itemId]: 0,
     }));
+    if (localStorage.getItem("auth-token")) {
+      axios
+        .post(
+          "http://localhost:4000/removefromcart",
+          { itemId },
+          {
+            headers: {
+              Accept: "application/json",
+              "auth-token": localStorage.getItem("auth-token"),
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.error("Add to cart error:", error);
+        });
+    }
   };
 
   // for checkbox
@@ -102,7 +143,7 @@ const ShopContextProvider = (props) => {
   };
 
   const totalCart = () =>
-  Object.values(cartItems).reduce((sum, qty) => sum + Number(qty || 0), 0);
+    Object.values(cartItems).reduce((sum, qty) => sum + Number(qty || 0), 0);
 
   const contexValue = {
     all_products,

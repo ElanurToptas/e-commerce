@@ -9,6 +9,7 @@ const path = require("path"); // Node.js’in yerleşik modülü.
 const cors = require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
 const { error } = require("console");
 
+
 app.use(express.json()); // req.body üzerinden gelen JSON verisine ulaşabilmek için şarttır.
 app.use(cors());
 
@@ -251,18 +252,44 @@ const fetchUser = async (req, res, next) => {
   } else {
     try {
       const data = jwt.verify(token, "secret_ecom");
-      req.user =data.user;
+      req.user = data.user;
       next();
     } catch (error) {
-      res.status(401).send({errors:"Please authenticate using valid token"})
+      res.status(401).send({ errors: "Please authenticate using valid token" });
     }
   }
 };
 
-app.post("/addtocart",fetchUser, async (req, res) => {
-  console.log(req.body,req.user);
-  let userData = await Users.findOne({_id:req.user.id});
-  userData.cartData[req.body.itemId] +=1;
-  await Users.findOneAndUpdate({_id:req.user.id},{cartData : userData.cartData});
-  res.send("Added")
+// Creating Endpoint for Adding Products in cartData
+app.post("/addtocart", fetchUser, async (req, res) => {
+  console.log(req.body, req.user);
+   console.log("Added",req.body.itemId);
+  let userData = await Users.findOne({ _id: req.user.id });
+  userData.cartData[req.body.itemId] += 1;
+  await Users.findOneAndUpdate(
+    { _id: req.user.id },
+    { cartData: userData.cartData }
+  );
+  res.send("Added");
 });
+
+// Creating Endpoint to Remove Product from cartData
+app.post("/removefromcart", fetchUser, async (req, res) => {
+  console.log("removed",req.body.itemId);
+  let userData = await Users.findOne({ _id: req.user.id });
+  if (userData.cartData[req.body.itemId] > 0)
+    userData.cartData[req.body.itemId] -= 1;
+  await Users.findOneAndUpdate(
+    { _id: req.user.id },
+    { cartData: userData.cartData }
+  );
+  res.send("Removed");
+});
+
+// Creating Endpoint to Get cartData
+
+app.post('/getcart',fetchUser,async(req,res) => {
+  console.log("GetCart");
+  let userData = await Users.findOne({_id: req.user.id});
+  res.json(userData.cartData);
+})
