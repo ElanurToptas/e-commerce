@@ -9,7 +9,7 @@ const SignupSchema = Yup.object({
     .email("Enter a valid email")
     .required("Email is required"),
   password: Yup.string()
-    .min(6, "At least 6 characters")
+    .min(2, "At least 6 characters")
     .required("Password is required"),
 });
 
@@ -31,6 +31,9 @@ export const LoginSignup = () => {
   const login = async () => {
     console.log("Login Function Ececuted", formData);
     try {
+       await SignupSchema.omit(["username"]).validate(formData, { abortEarly: false });
+      setErrors({});
+
       const { data } = await axios.post(
         "http://localhost:4000/login",
         formData,
@@ -40,12 +43,19 @@ export const LoginSignup = () => {
       if (data.success) {
         localStorage.setItem("auth-token", data.token);
         window.location.replace("/");
-      } else {
-        alert(data.errors || "Signup failed");
       }
     } catch (err) {
-      const msg = err?.response?.data?.errors;
-      alert(msg);
+      if (err.name === "ValidationError") {
+        // Yup alan hataları
+        const fieldErrors = {};
+        err.inner.forEach((e) => {
+          if (!fieldErrors[e.path]) fieldErrors[e.path] = e.message;
+        });
+        setErrors(fieldErrors);
+      } else if (err.response?.data?.errors) {
+        // Backend (HTTP 4xx/5xx) hatası
+        setErrors({ general: err.response.data.errors });
+      }
     }
   };
 
@@ -63,9 +73,7 @@ export const LoginSignup = () => {
       if (data.success) {
         localStorage.setItem("auth-token", data.token);
         window.location.replace("/");
-      } else {
-        alert(data.errors || "Signup failed");
-      }
+      } 
     } catch (err) {
       if (err.name === "ValidationError") {
         // Yup alan hataları
@@ -95,7 +103,7 @@ export const LoginSignup = () => {
                 type="text"
                 placeholder="Your Name"
               />
-              {errors.username && <small style={{ color: "red" }}>{errors.username}</small>}
+              {errors.username && <small style={{ color: "red", marginTop:"-20px" }}>{errors.username}</small>}
             </>
           )}
           <input
@@ -105,7 +113,7 @@ export const LoginSignup = () => {
             type="email"
             placeholder="Email Address"
           />
-          {errors.email && <small style={{ color: "red" }}>{errors.email}</small>}
+          {errors.email && <small style={{ color: "red" , marginTop:"-20px" }}>{errors.email}</small>}
           {errors.general && (
           <small style={{ color: "red" }}>{errors.general}</small>
         )}
@@ -116,7 +124,7 @@ export const LoginSignup = () => {
             type="password"
             placeholder="Password"
           />
-          {errors.password && <small style={{ color: "red" }}>{errors.password}</small>}
+          {errors.password && <small style={{ color: "red", marginTop:"-20px" }}>{errors.password}</small>}
         </div>
         <button
           onClick={() => {
