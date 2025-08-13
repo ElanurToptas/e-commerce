@@ -62,7 +62,7 @@ export const AddProduct = () => {
     category: "women",
     new_price: "",
     old_price: "",
-    id: Date.now(),
+    id: 1,
   });
 
   const imageHandler = (e) => {
