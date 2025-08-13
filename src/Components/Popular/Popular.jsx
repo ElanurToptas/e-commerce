@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import "./Popular.scss";
-import data_product from "../Assets/Frontend_Assets/data";
+import axios from "axios"
 import { Item } from "../Item/Item";
 
 export const Popular = () => {
+
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  useEffect(() => {
+     axios
+      .get("http://localhost:4000/popularinwomen")
+      .then((response) => {
+        
+        setPopularProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Veriler alınırken hata oluştu:", error);
+      });
+  }, []);
+
   return (
     <div className="popular">
       <h1>POPULAR IN WOMAN</h1>
       <hr />
       <div className="popular-item">
-        {data_product.map((item, i) => {
+        {popularProducts.map((item, i) => {
           return (
             <Item
               key={i}
