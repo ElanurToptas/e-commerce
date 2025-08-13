@@ -181,7 +181,7 @@ app.post("/signup", async (req, res) => {
   if (check) {
     return res
       .status(400)
-      .json({
+      .json({ 
         success: false,
         errors: "existing user found with same email adress",
       });
