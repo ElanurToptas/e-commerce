@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef,useEffect } from "react";
 import { Link } from "react-router-dom"; // Sayfa değişmeden içerik değişir.
 import "./Navbar.scss";
 
@@ -12,10 +12,28 @@ export const Navbar = () => {
   const {totalCart} = useContext(ShopContext)
   const menuRef = useRef();
 
+  // Kullanıcı adını localStorage'dan al
+  const [userName, setUserName] = useState(localStorage.getItem("user-name") || "");
+
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key === "user-name") setUserName(e.newValue || "");
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   const dropdown_toggle = (e) => {
     menuRef.current.classList.toggle('nav-menu-active');
     e.target.classList.toggle('open');
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth-token");
+    localStorage.removeItem("user-name"); 
+    setUserName("");
+    window.location.replace("./");
+  };
 
   return (
     <div className="navbar">
@@ -67,16 +85,20 @@ export const Navbar = () => {
         </li>
       </ul>
       <div className="nav-login-cart">
-        {localStorage.getItem('auth-token')
-        ?<button onClick={() =>{localStorage.removeItem('auth-token');window.location.replace('./')}}>Logout</button>
-        :<Link to="/login">
-          <button>Login</button>
-        </Link> }
-        
+         {localStorage.getItem("auth-token") && userName && (
+          <span style={{ marginRight: "12px" }}>
+            {"Hoşgeldin "}{userName}
+          </span>
+        )}
         <Link to="/cart">
           <img src={cart_icon} alt="" />
         </Link>
         <div className="nav-cart-count">{totalCart()}</div>
+         {localStorage.getItem('auth-token')
+        ?<button onClick={handleLogout}>Logout</button>
+        :<Link to="/login">
+          <button>Login</button>
+        </Link> }
       </div>
     </div>
   );

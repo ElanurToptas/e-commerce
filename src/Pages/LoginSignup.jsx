@@ -31,7 +31,9 @@ export const LoginSignup = () => {
   const login = async () => {
     console.log("Login Function Ececuted", formData);
     try {
-       await SignupSchema.omit(["username"]).validate(formData, { abortEarly: false });
+      await SignupSchema.omit(["username"]).validate(formData, {
+        abortEarly: false,
+      });
       setErrors({});
 
       const { data } = await axios.post(
@@ -73,7 +75,7 @@ export const LoginSignup = () => {
       if (data.success) {
         localStorage.setItem("auth-token", data.token);
         window.location.replace("/");
-      } 
+      }
     } catch (err) {
       if (err.name === "ValidationError") {
         // Yup alan hataları
@@ -103,7 +105,11 @@ export const LoginSignup = () => {
                 type="text"
                 placeholder="Your Name"
               />
-              {errors.username && <small style={{ color: "red", marginTop:"-20px" }}>{errors.username}</small>}
+              {errors.username && (
+                <small style={{ color: "red", marginTop: "-20px" }}>
+                  {errors.username}
+                </small>
+              )}
             </>
           )}
           <input
@@ -113,10 +119,14 @@ export const LoginSignup = () => {
             type="email"
             placeholder="Email Address"
           />
-          {errors.email && <small style={{ color: "red" , marginTop:"-20px" }}>{errors.email}</small>}
+          {errors.email && (
+            <small style={{ color: "red", marginTop: "-20px" }}>
+              {errors.email}
+            </small>
+          )}
           {errors.general && (
-          <small style={{ color: "red" }}>{errors.general}</small>
-        )}
+            <small style={{ color: "red" }}>{errors.general}</small>
+          )}
           <input
             name="password"
             value={formData.password}
@@ -124,7 +134,11 @@ export const LoginSignup = () => {
             type="password"
             placeholder="Password"
           />
-          {errors.password && <small style={{ color: "red", marginTop:"-20px" }}>{errors.password}</small>}
+          {errors.password && (
+            <small style={{ color: "red", marginTop: "-20px" }}>
+              {errors.password}
+            </small>
+          )}
         </div>
         <button
           onClick={() => {

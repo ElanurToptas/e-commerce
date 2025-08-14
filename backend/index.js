@@ -212,11 +212,15 @@ app.post("/login", async (req, res) => {
     if (passCompare) {
       const data = {
         user: {
-          id: user.id,
+          id: user._id,
         },
       };
       const token = jwt.sign(data, "secret_ecom");
-      res.json({ success: true, token });
+      res.json({ success: true, token, user: {
+        name: user.name,
+        email: user.email,
+      }, 
+    });
     } else {
       res.json({ success: false, errors: "Wrong Password" });
     }
@@ -293,3 +297,5 @@ app.post('/getcart',fetchUser,async(req,res) => {
   let userData = await Users.findOne({_id: req.user.id});
   res.json(userData.cartData);
 })
+
+
