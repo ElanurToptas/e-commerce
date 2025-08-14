@@ -64,7 +64,7 @@ export const ProductDisplay = (props) => {
         
       {showCard && (
         <div className="cart-message">
-          {product.name} sepete eklendi!
+          {product.name} add to cart!
         </div>
       )}
         <p className="productDisplay-right-category">

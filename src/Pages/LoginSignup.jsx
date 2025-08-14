@@ -44,6 +44,7 @@ export const LoginSignup = () => {
 
       if (data.success) {
         localStorage.setItem("auth-token", data.token);
+        localStorage.setItem("user-name", data.user?.name || "");
         window.location.replace("/");
       }
     } catch (err) {
