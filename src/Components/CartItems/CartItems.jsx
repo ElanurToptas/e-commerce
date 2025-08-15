@@ -23,7 +23,6 @@ export const CartItems = () => {
         <p>Price</p>
         <p>Quantity</p>
         <p>Total</p>
-        <p>Remove</p>
       </div>
       <hr />
       {all_products.map((e) => {

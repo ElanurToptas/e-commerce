@@ -9,7 +9,6 @@ const path = require("path"); // Node.js’in yerleşik modülü.
 const cors = require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
 const { error } = require("console");
 
-
 app.use(express.json()); // req.body üzerinden gelen JSON verisine ulaşabilmek için şarttır.
 app.use(cors());
 
@@ -201,7 +200,14 @@ app.post("/signup", async (req, res) => {
 
   // token ile kullanıcının daha önce giriş yapıp yapmadığını kontrol ediyoruz.
   const token = jwt.sign(data, "secret_ecom");
-  res.json({ success: true, token });
+  res.json({
+    success: true,
+    token,
+    user: {
+      name: user.name,
+      email: user.email,
+    },
+  });
 });
 
 // Creating Endpoint for User Login
@@ -216,11 +222,14 @@ app.post("/login", async (req, res) => {
         },
       };
       const token = jwt.sign(data, "secret_ecom");
-      res.json({ success: true, token, user: {
-        name: user.name,
-        email: user.email,
-      }, 
-    });
+      res.json({
+        success: true,
+        token,
+        user: {
+          name: user.name,
+          email: user.email,
+        },
+      });
     } else {
       res.json({ success: false, errors: "Wrong Password" });
     }
@@ -267,7 +276,7 @@ const fetchUser = async (req, res, next) => {
 // Creating Endpoint for Adding Products in cartData
 app.post("/addtocart", fetchUser, async (req, res) => {
   console.log(req.body, req.user);
-   console.log("Added",req.body.itemId);
+  console.log("Added", req.body.itemId);
   let userData = await Users.findOne({ _id: req.user.id });
   userData.cartData[req.body.itemId] += 1;
   await Users.findOneAndUpdate(
@@ -279,7 +288,7 @@ app.post("/addtocart", fetchUser, async (req, res) => {
 
 // Creating Endpoint to Remove Product from cartData
 app.post("/removefromcart", fetchUser, async (req, res) => {
-  console.log("removed",req.body.itemId);
+  console.log("removed", req.body.itemId);
   let userData = await Users.findOne({ _id: req.user.id });
   if (userData.cartData[req.body.itemId] > 0)
     userData.cartData[req.body.itemId] -= 1;
@@ -292,10 +301,8 @@ app.post("/removefromcart", fetchUser, async (req, res) => {
 
 // Creating Endpoint to Get cartData
 
-app.post('/getcart',fetchUser,async(req,res) => {
+app.post("/getcart", fetchUser, async (req, res) => {
   console.log("GetCart");
-  let userData = await Users.findOne({_id: req.user.id});
+  let userData = await Users.findOne({ _id: req.user.id });
   res.json(userData.cartData);
-})
-
-
+});

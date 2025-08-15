@@ -9,7 +9,7 @@ const SignupSchema = Yup.object({
     .email("Enter a valid email")
     .required("Email is required"),
   password: Yup.string()
-    .min(2, "At least 6 characters")
+    .min(3, "At least 3 characters")
     .required("Password is required"),
 });
 
