@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./CartItems.scss";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/Frontend_Assets/cart_cross_icon.png";
 
-export const CartItems = () => {
+export const CartItems = (props) => {
   const {
     all_products,
     cartItems,
@@ -15,8 +15,25 @@ export const CartItems = () => {
     totalAmount,
   } = useContext(ShopContext);
 
+  const [showCard, setShowCard] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const handleAddToCart = (itemId, name) => {
+    deleteFromCart(itemId);
+    setShowCard(true);
+    setAlertMessage(`${name} sepetten silindi`);
+    setTimeout(() => {
+      setShowCard(false);
+      setAlertMessage("");
+    }, 2000);
+  };
+
   return (
     <div className="cartItems">
+      {showCard && (
+        <div className="cart-message">{alertMessage} remove to cart!</div>
+      )}
+
       <div className="cartitems-format-main-title cartitems-format-main">
         <p>Products</p>
         <p>Title</p>
@@ -58,9 +75,7 @@ export const CartItems = () => {
                 <img
                   className="cartItems-remove-icon"
                   src={remove_icon}
-                  onClick={() => {
-                    deleteFromCart(e.id);
-                  }}
+                  onClick={() => handleAddToCart(e.id, e.name)}
                   alt=""
                 />
               </div>

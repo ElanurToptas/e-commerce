@@ -91,12 +91,14 @@ const ShopContextProvider = (props) => {
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
-
+  
+  
   const deleteFromCart = (itemId) => {
     setCartItems((prev) => ({
       ...prev,
       [itemId]: 0,
     }));
+
     if (localStorage.getItem("auth-token")) {
       axios
         .post(

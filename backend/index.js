@@ -135,8 +135,7 @@ app.post("/removeproduct", async (req, res) => {
     if (!deletedProduct) {
       return res.json({ success: false, message: "Ürün bulunamadı." });
     }
-
-    console.log("Removed:", deletedProduct.name);
+    
     res.json({
       success: true,
       name: deletedProduct.name,

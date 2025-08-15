@@ -5,6 +5,8 @@ import cross_icon from '../../Assets/Admin_Assets/cross_icon.png'
 
 export const ListProduct = () => {
   const [allproducts, setAllproducts] = useState([]);
+  const [showCard, setShowCard] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
  const axiosInfo = async () => {
   try {
@@ -24,7 +26,7 @@ export const ListProduct = () => {
      try {
     const { data } = await axios.post(
       "http://localhost:4000/removeproduct",
-     { id: id,}
+     { id: id}
     )
     await axiosInfo();
     if (data.success) {
@@ -36,9 +38,23 @@ export const ListProduct = () => {
     console.error("Silme hatası:", e);
   }
   }
+  
+    const handleAddToCart = (id, name) => {
+       remove_product(id);
+      setShowCard(true);
+      setAlertMessage(`${name} sepetten silindi`);
+      setTimeout(() => {
+        setShowCard(false);
+        setAlertMessage("");
+      }, 2000);
+    };
 
-  return (
+ return (
     <div className="list-product">
+      {showCard && (
+        <div className="cart-message">{alertMessage}</div>
+      )}
+
       <h1>All Products List</h1>
       <div className="listproduct-format-main">
         <p>Product</p>
@@ -47,21 +63,32 @@ export const ListProduct = () => {
         <p>New Price</p>
         <p>Category</p>
       </div>
+
       <div className="listproduct-allproducts">
         <hr />
-        {allproducts.map((product,index) =>{
-          return <><div key={index} className="listproduct-format-main listproduct-format">
-            <img  className ="listproduct-product-icon" src={product.images} alt="" />
+        {allproducts.map((product) => (
+          <div
+            key={product.id}
+            className="listproduct-format-main listproduct-format"
+          >
+            <img
+              className="listproduct-product-icon"
+              src={product.images}
+              alt=""
+            />
             <p>{product.name}</p>
             <p>${product.old_price}</p>
             <p>${product.new_price}</p>
             <p>{product.category}</p>
-            <img onClick={() => {remove_product(product.id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
-            
+            <img
+              onClick={() => handleAddToCart(product.id, product.name)}
+              className="listproduct-remove-icon"
+              src={cross_icon}
+              alt=""
+            />
+            <hr />
           </div>
-          <hr />
-          </> 
-        })}
+        ))}
       </div>
     </div>
   );
