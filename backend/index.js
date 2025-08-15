@@ -195,6 +195,7 @@ app.post("/signup", async (req, res) => {
   const data = {
     user: {
       id: user.id,
+      name: user.name,
     },
   };
 
@@ -227,7 +228,6 @@ app.post("/login", async (req, res) => {
         token,
         user: {
           name: user.name,
-          email: user.email,
         },
       });
     } else {
