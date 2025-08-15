@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import "./CartItems.scss";
 import { ShopContext } from "../../Context/ShopContext";
 import remove_icon from "../Assets/Frontend_Assets/cart_cross_icon.png";
@@ -104,7 +105,7 @@ export const CartItems = (props) => {
               <h3>${totalAmount()}</h3>
             </div>
           </div>
-          <button>PROCEED TO CHECKOUT</button>
+          <Link to={'/payment'}><button>PROCEED TO CHECKOUT</button></Link>
         </div>
         <div className="cartitems-promocode">
           <p>If you have promo code, Enter it here</p>
