@@ -8,6 +8,7 @@ const path = require("path"); // Node.js’in yerleşik modülü.
 // Dosya yollarını güvenli bir şekilde oluşturmak için kullanılır (__dirname ile birlikte).
 const cors = require("cors"); // tarayıcıların farklı domain’ler arası istek atmasına izin verir.
 const { error } = require("console");
+const { type } = require("os");
 
 app.use(express.json()); // req.body üzerinden gelen JSON verisine ulaşabilmek için şarttır.
 app.use(cors());
@@ -315,4 +316,25 @@ app.post("/getcart", fetchUser, async (req, res) => {
   console.log("GetCart");
   let userData = await Users.findOne({ _id: req.user.id });
   res.json(userData.cartData);
+});
+
+
+// Payment 
+
+const Payment = mongoose.model("Payment", {
+  name: {
+    type:String
+  },
+  surname:{
+    type:String
+  },
+  phone:{
+    type:String
+  },
+   city:{
+    type:String
+  },
+   adress:{
+    type:String
+  }
 });
