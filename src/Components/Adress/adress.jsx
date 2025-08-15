@@ -1,47 +1,8 @@
 import React, { useState } from "react";
 import "./adress.scss";
+import {AdresForm} from './AdresForm/AdresForm'
 import Modal from "../Adress/model/model"; // az sonra oluşturacağız
 
-const AdresForm = () => (
-  <form>
-    <div className="personal">
-        <label >
-      Name
-      <input type="text" placeholder="Enter Your Name" />
-    </label>
-    <label >
-      Surname
-      <input type="text" placeholder="Enter Your Surname" />
-    </label>
-    </div> 
-    <div className="phone-city">
-        <label >
-      Phone Number
-      <input type="text" placeholder="0 (___) ___ __ __" />
-    </label>
-    <label>
-      City
-      <select>
-        <option>Select</option>
-        <option>Kars</option>
-        <option>İstanbul</option>
-        <option>Ankara</option>
-        <option>İzmir</option>
-      </select>
-    </label>
-    </div>
-    <div className="adress">
-        <label>
-      Adress
-      <input type="text" placeholder="Enter Your Address" />
-    </label>
-    </div>
-   <div className="btn">
-     <button>Register</button>
-   </div>
-  </form>
-  
-);
 
 export const Adress = () => {
   const [showModal, setShowModal] = useState(false);

@@ -1,0 +1,50 @@
+form {
+  margin: 20px 0px;
+
+  .personal,
+  .phone-city,
+  .adress {
+    display: flex;
+    color: #333;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+
+      input,
+      select {
+        height: 38px;
+        border-radius: 8px;
+        padding: 8px 10px;
+        background-color: #fbfbfb;
+        border: 1px solid #e6e6e6;
+        margin-top: 4px;
+      }
+      select {
+        height: 56px;
+      }
+    }
+  }
+  .adress label{
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .btn{
+    margin-right: 20px;
+    button {
+    color: #fbfbfb;
+    border-radius: 8px;
+    padding: 15px 0px;
+    background-color: #f27a1a;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+  }
+  }
+}

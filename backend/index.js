@@ -194,6 +194,7 @@ app.post("/signup", async (req, res) => {
   for (let i = 0; i < 300; i++) {
     cart[i] = 0;
   }
+
   const user = new Users({
     name: req.body.username,
     email: req.body.email,
@@ -319,16 +320,16 @@ app.post("/getcart", fetchUser, async (req, res) => {
 });
 
 
-// Payment 
+// Schema creating for Adres model
 
-const Payment = mongoose.model("Payment", {
+const Adres = mongoose.model("Adres", {
   name: {
     type:String
   },
   surname:{
     type:String
   },
-  phone:{
+  number:{
     type:String
   },
    city:{
@@ -336,5 +337,43 @@ const Payment = mongoose.model("Payment", {
   },
    adress:{
     type:String
+  },
+
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+app.post("/paymentcart", async (req, res) => {
+  try {
+    const { name, surname, number, city, adress } = req.body;
+
+
+    const newAdres = new Adres({
+      name,
+      surname,
+      number,
+      city,
+      adress,
+    });
+
+    await newAdres.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Adres bilgileri başarıyla kaydedildi.",
+      adresId: newAdres._id,
+    });
+
+  } catch (err) {
+    console.error("paymentcart hatası:", err);
+    res.status(500).json({
+      success: false,
+      error: "Sunucu hatası: " + err.message,
+    });
   }
 });
+
+
+
