@@ -127,15 +127,26 @@ app.post("/addproduct", async (req, res) => {
 
 // Creating API for deleting products
 app.post("/removeproduct", async (req, res) => {
-  await Product.findOneAndDelete({
-    id: nextId,
-  });
-  console.log("removed");
-  res.json({
-    success: true,
-    name: req.body.name,
-  });
+  try {
+    const { id } = req.body;
+
+    const deletedProduct = await Product.findOneAndDelete({ id });
+
+    if (!deletedProduct) {
+      return res.json({ success: false, message: "Ürün bulunamadı." });
+    }
+
+    console.log("Removed:", deletedProduct.name);
+    res.json({
+      success: true,
+      name: deletedProduct.name,
+    });
+  } catch (err) {
+    console.error("Silme hatası (backend):", err);
+    res.status(500).json({ success: false, message: "Sunucu hatası" });
+  }
 });
+
 
 // Creating API for getting all products
 app.get("/allproducts", async (req, res) => {

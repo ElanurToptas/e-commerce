@@ -24,7 +24,7 @@ export const ListProduct = () => {
      try {
     const { data } = await axios.post(
       "http://localhost:4000/removeproduct",
-      { id } 
+     { id: id,}
     )
     await axiosInfo();
     if (data.success) {
@@ -58,6 +58,7 @@ export const ListProduct = () => {
             <p>${product.new_price}</p>
             <p>{product.category}</p>
             <img onClick={() => {remove_product(product.id)}} className="listproduct-remove-icon" src={cross_icon} alt="" />
+            
           </div>
           <hr />
           </> 
