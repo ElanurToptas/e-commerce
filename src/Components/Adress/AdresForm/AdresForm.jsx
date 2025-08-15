@@ -4,13 +4,13 @@ import * as Yup from "yup";
 import "./AdresForm.scss";
 
 const SignupSchema = Yup.object({
-  name: Yup.string().required("name is required"),
-  surname: Yup.string().required("surname is required"),
+  name: Yup.string().required("Name is required"),
+  surname: Yup.string().required("Surname is required"),
   number: Yup.string()
     .min(10, "Phone number too short")
     .required("Phone Number is required"),
-  city: Yup.string().required("city is required"),
-  adress: Yup.string().required("adres is required"),
+  city: Yup.string().required("City is required"),
+  adress: Yup.string().required("Adres is required"),
 });
 
 export const AdresForm = () => {
@@ -42,9 +42,9 @@ export const AdresForm = () => {
         { headers: { accept: "application/json" } }
       );
 
-      if (data.success && data.token) {
-        localStorage.setItem("auth-token", data.token);
-        window.location.replace("/");
+      if (data.success) {
+        // localStorage.setItem("auth-token", data.token);
+        window.location.replace("/payment");
       }
     } catch (err) {
       if (err.name === "ValidationError") {
@@ -80,7 +80,7 @@ export const AdresForm = () => {
             placeholder="Enter Your Name"
           />
           {errors.name && (
-            <small style={{ color: "red", marginTop: "-20px" }}>
+            <small style={{ color: "#da3b0bff"}}>
               {errors.name}
             </small>
           )}
@@ -95,7 +95,7 @@ export const AdresForm = () => {
             placeholder="Enter Your Surname"
           />
           {errors.surname && (
-            <small style={{ color: "red", marginTop: "-20px" }}>
+            <small style={{ color: "#da3b0bff" }}>
               {errors.surname}
             </small>
           )}
@@ -112,7 +112,7 @@ export const AdresForm = () => {
             placeholder="0 (___) ___ __ __"
           />
           {errors.number && (
-            <small style={{ color: "red", marginTop: "-20px" }}>
+            <small style={{ color: "#da3b0bff"}}>
               {errors.number}
             </small>
           )}
@@ -127,7 +127,7 @@ export const AdresForm = () => {
             <option value="İzmir">İzmir</option>
           </select>
           {errors.city && (
-            <small style={{ color: "red", marginTop: "-20px" }}>
+            <small style={{ color: "#da3b0bff"}}>
               {errors.city}
             </small>
           )}
@@ -144,7 +144,7 @@ export const AdresForm = () => {
             placeholder="Enter Your Address"
           />
           {errors.adress && (
-            <small style={{ color: "red", marginTop: "-20px" }}>
+            <small style={{ color: "#da3b0bff" }}>
               {errors.adress}
             </small>
           )}
