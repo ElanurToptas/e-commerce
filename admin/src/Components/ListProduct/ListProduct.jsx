@@ -46,7 +46,6 @@ export const ListProduct = () => {
         <p>Old Price</p>
         <p>New Price</p>
         <p>Category</p>
-        <p>Remove</p>
       </div>
       <div className="listproduct-allproducts">
         <hr />
