@@ -4,7 +4,7 @@ import "./Delivery.scss";
 import { AdresItem } from "../AdresItem/AdresItem";
 import { AdresForm } from "../AdresForm/AdresForm";
 export const Delivery = ({ onAddressSelect, onClose }) => {
-  const [new_adress, setNew_adress] = useState([]);
+  const [adresList, setAdresList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -13,7 +13,7 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
       .get("http://localhost:4000/adress")
       .then((response) => {
         console.log("Tüm adresler:", response.data);
-        setNew_adress(response.data);
+        setAdresList(response.data);
       })
       .catch((error) => {
         console.error("Veriler alınırken hata oluştu:", error);
@@ -24,19 +24,35 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
     return <AdresForm />;
   }
 
+  // for checkbox
   const handleChoose = () => {
     if (selectedIndex !== null) {
-      const selectedAddress = new_adress[selectedIndex];
-      onAddressSelect(selectedAddress); 
-      onClose(); 
+      const selectedAddress = adresList[selectedIndex];
+      onAddressSelect(selectedAddress);
+      onClose();
     }
+  };
+
+  const remove_adress = (id) => {
+    axios
+      .post("http://localhost:4000/removeaddress", { id })
+      .then((res) => {
+        if (res.data.success) {
+          setAdresList((prevList) =>
+            prevList.filter((adres) => adres._id !== id)
+          );
+        }
+      })
+      .catch((err) => {
+        console.error("Silme hatası:", err);
+      });
   };
 
   return (
     <div>
       <div className="delivery-cartItem">
-        {new_adress.length > 0 ? (
-          new_adress.map((item, i) => (
+        {adresList.length > 0 ? (
+          adresList.map((item, i) => (
             <AdresItem
               key={i}
               name={item.name}
@@ -46,6 +62,7 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
               adress={item.adress}
               isSelected={selectedIndex === i}
               onSelect={() => setSelectedIndex(i)}
+              onDelete={() => remove_adress(item._id)}
             />
           ))
         ) : (
@@ -55,7 +72,9 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
           <button className="new" onClick={() => setShowForm(true)}>
             + New Adress
           </button>
-          <button className="choose" onClick={handleChoose}>Choose Address</button>
+          <button className="choose" onClick={handleChoose}>
+            Choose Address
+          </button>
         </div>
       </div>
     </div>

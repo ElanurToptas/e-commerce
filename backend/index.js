@@ -378,3 +378,23 @@ app.get("/adress", async (req, res) => {
   let adress = await Adres.find({});
   res.json(adress);
 });
+
+app.post("/removeaddress", async (req, res) => {
+  try {
+    const { id } = req.body; 
+    const deletedAddress = await Adres.findOneAndDelete(id);
+    if (!deletedAddress) {
+      return res.json({ success: false, message: "Adres bulunamadı." });
+    }
+    
+    res.json({
+      success: true,
+      name:deletedAddress.name,
+    });
+  } catch (err) {
+    console.error("Silme hatası (backend):", err);
+    res.status(500).json({ success: false, message: "Sunucu hatası" });
+  }
+});
+
+
