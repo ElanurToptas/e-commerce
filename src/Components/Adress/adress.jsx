@@ -12,7 +12,11 @@ export const Adress = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/adress")
+      .get("http://localhost:4000/adress", {
+        headers: {
+          "auth-token": localStorage.getItem("auth-token"),
+        },
+      })
       .then((response) => {
         const lastAddress = response.data[response.data.length - 1];
         console.log("Son adres:", lastAddress);

@@ -50,7 +50,6 @@ export const AdresForm = () => {
       );
 
       if (data.success) {
-        localStorage.setItem("auth-token", data.token);
         window.location.replace("/payment");
       }
     } catch (err) {

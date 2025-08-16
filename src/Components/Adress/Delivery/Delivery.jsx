@@ -10,7 +10,13 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/adress")
+      .get("http://localhost:4000/adress",
+        {
+        headers: {
+          "auth-token": localStorage.getItem("auth-token"),
+        },
+      }
+      )
       .then((response) => {
         console.log("Tüm adresler:", response.data);
         setAdresList(response.data);

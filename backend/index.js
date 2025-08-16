@@ -322,33 +322,26 @@ app.post("/getcart", fetchUser, async (req, res) => {
 // Schema creating for Adres model
 
 const Adres = mongoose.model("Adres", {
-  name: {
-    type:String
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    required: true
   },
-  surname:{
-    type:String
-  },
-  number:{
-    type:String
-  },
-   city:{
-    type:String
-  },
-   adress:{
-    type:String
-  },
-
-  date: {
-    type: Date,
-    default: Date.now,
-  },
+  name: String,
+  surname: String,
+  number: String,
+  city: String,
+  adress: String,
+  date: { type: Date, default: Date.now },
 });
 
-app.post("/adresscart", async (req, res) => {
+
+app.post("/adresscart",  fetchUser, async (req, res) => {
   try {
     const { name, surname, number, city, adress } = req.body;
 
     const newAdres = new Adres({
+      userId: req.user.id,
       name,
       surname,
       number,
@@ -373,25 +366,28 @@ app.post("/adresscart", async (req, res) => {
   }
 });
 
-app.get("/adress", async (req, res) => {
-  let adress = await Adres.find({});
-  res.json(adress);
+app.get("/adress", fetchUser, async (req, res) => {
+  try {
+    const adress = await Adres.find({ userId: req.user.id });
+    res.json(adress);
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Sunucu hatası" });
+  }
 });
 
-app.post("/removeaddress", async (req, res) => {
+
+app.post("/removeaddress", fetchUser, async (req, res) => {
   try {
-    const { id } = req.body; 
-    const deletedAddress = await Adres.findOneAndDelete(id);
-    if (!deletedAddress) {
-      return res.json({ success: false, message: "Adres bulunamadı." });
+    const address = await Adres.findById(req.body.id);
+    if (!address) return res.json({ success: false, message: "Adres bulunamadı" });
+
+    if (address.userId.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: "Yetkisiz işlem" });
     }
-    
-    res.json({
-      success: true,
-      name:deletedAddress.name,
-    });
+
+    await address.deleteOne();
+    res.json({ success: true, message: "Adres silindi" });
   } catch (err) {
-    console.error("Silme hatası (backend):", err);
     res.status(500).json({ success: false, message: "Sunucu hatası" });
   }
 });
