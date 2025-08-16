@@ -22,7 +22,7 @@ export const CartItems = (props) => {
   const handleAddToCart = (itemId, name) => {
     deleteFromCart(itemId);
     setShowCard(true);
-    setAlertMessage(`${name} sepetten silindi`);
+    setAlertMessage(`${name}`);
     setTimeout(() => {
       setShowCard(false);
       setAlertMessage("");
@@ -54,7 +54,7 @@ export const CartItems = (props) => {
                   checked={selectedItems[e.id] || false}
                   onChange={() => toggleSelectItem(e.id)}
                 />
-                <img src={e.images} alt="" className="carticon-product-icon" />
+               <Link to={`/product/${e.id}`}> <img src={e.images} alt="" className="carticon-product-icon" /></Link>
                 <p>{e.name}</p>
                 <p>${e.new_price}</p>
                 <div className="buttons">

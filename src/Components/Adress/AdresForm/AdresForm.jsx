@@ -7,7 +7,7 @@ const SignupSchema = Yup.object({
   name: Yup.string().required("Name is required"),
   surname: Yup.string().required("Surname is required"),
   number: Yup.string()
-    .min(10, "Phone number too short")
+    .min(11, "Phone number too short")
     .required("Phone Number is required"),
   city: Yup.string().required("City is required"),
   adress: Yup.string().required("Adres is required"),
