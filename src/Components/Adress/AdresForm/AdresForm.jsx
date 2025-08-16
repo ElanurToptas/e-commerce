@@ -36,14 +36,21 @@ export const AdresForm = () => {
       });
       setErrors({});
 
+      const token = localStorage.getItem("auth-token");
+
+      if (!token) {
+        setErrors({ general: "Lütfen önce giriş yapınız." });
+        return;
+      }
+
       const { data } = await axios.post(
         "http://localhost:4000/adresscart",
         formData,
-        { headers: { accept: "application/json" } }
+        { headers: { accept: "application/json", "auth-token": token } }
       );
 
       if (data.success) {
-        // localStorage.setItem("auth-token", data.token);
+        localStorage.setItem("auth-token", data.token);
         window.location.replace("/payment");
       }
     } catch (err) {
@@ -80,9 +87,7 @@ export const AdresForm = () => {
             placeholder="Enter Your Name"
           />
           {errors.name && (
-            <small style={{ color: "#da3b0bff"}}>
-              {errors.name}
-            </small>
+            <small style={{ color: "#da3b0bff" }}>{errors.name}</small>
           )}
         </label>
         <label>
@@ -95,9 +100,7 @@ export const AdresForm = () => {
             placeholder="Enter Your Surname"
           />
           {errors.surname && (
-            <small style={{ color: "#da3b0bff" }}>
-              {errors.surname}
-            </small>
+            <small style={{ color: "#da3b0bff" }}>{errors.surname}</small>
           )}
         </label>
       </div>
@@ -112,9 +115,7 @@ export const AdresForm = () => {
             placeholder="0 (___) ___ __ __"
           />
           {errors.number && (
-            <small style={{ color: "#da3b0bff"}}>
-              {errors.number}
-            </small>
+            <small style={{ color: "#da3b0bff" }}>{errors.number}</small>
           )}
         </label>
         <label>
@@ -127,9 +128,7 @@ export const AdresForm = () => {
             <option value="İzmir">İzmir</option>
           </select>
           {errors.city && (
-            <small style={{ color: "#da3b0bff"}}>
-              {errors.city}
-            </small>
+            <small style={{ color: "#da3b0bff" }}>{errors.city}</small>
           )}
         </label>
       </div>
@@ -144,9 +143,7 @@ export const AdresForm = () => {
             placeholder="Enter Your Address"
           />
           {errors.adress && (
-            <small style={{ color: "#da3b0bff" }}>
-              {errors.adress}
-            </small>
+            <small style={{ color: "#da3b0bff" }}>{errors.adress}</small>
           )}
         </label>
       </div>

@@ -44,7 +44,7 @@ export const CartItems = (props) => {
       </div>
       <hr />
       {all_products.map((e) => {
-        if (cartItems[e.id] > 0) {
+        if (cartItems[String(e.id)] > 0) {
           // sepette ürün varsa
           return (
             <div key={e.id}>

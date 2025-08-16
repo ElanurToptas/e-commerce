@@ -34,7 +34,7 @@ const ShopContextProvider = (props) => {
       axios
         .post(
           "http://localhost:4000/getcart",
-          {}, 
+          {},
           {
             headers: {
               Accept: "application/json",
@@ -91,7 +91,6 @@ const ShopContextProvider = (props) => {
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   };
-  
   
   const deleteFromCart = (itemId) => {
     setCartItems((prev) => ({
