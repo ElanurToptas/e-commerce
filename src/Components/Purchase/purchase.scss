@@ -3,12 +3,12 @@
   padding: 0;
   box-shadow: none;
 }
+
 .purchase-container {
   margin: 20px 100px;
   border: 1px solid #e6e6e6;
   border-radius: 8px;
   padding: 20px;
- 
 
   .purchase-title {
     display: flex;
@@ -44,5 +44,82 @@
       display: flex;
       gap: 2px;
     }
+  }
+}
+
+@media (max-width: 1280px) {
+  .purchase-container {
+    .purchase-title {
+      height: 32px;
+      padding: 5px 20px;
+
+      h3 {
+        font-size: 16px;
+      }
+
+      .purchase-total {
+        p {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .purchase-product {
+      .purchase-product-icon {
+        height: 75px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .purchase-container {
+    margin: 20px 80px;
+    .purchase-title {
+      height: 30px;
+      .purchase-total {
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .purchase-product {
+      .purchase-product-icon {
+        height: 75px;
+      }
+      p {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .purchase-container {
+    margin: 20px 50px;
+    .purchase-title {
+      height: 30px;
+
+      .purchase-total {
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .purchase-product {
+      .purchase-product-icon {
+        height: 75px;
+      }
+      p {
+        font-size: 13px;
+      }
+    }
+  }
+}
+@media (max-width: 500px) {
+  .purchase-container {
+    margin: 14px 10px;
   }
 }
