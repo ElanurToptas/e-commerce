@@ -28,7 +28,11 @@ export const Adress = () => {
   }, []);
 
   const handleAddressSelect = (selectedAddress) => {
-    setNew_adress(selectedAddress);
+    if (selectedAddress.length > 0) {
+    setNew_adress(selectedAddress[selectedAddress.length - 1]);
+  } else {
+    setNew_adress(null); // Liste boşsa "Adres bulunamadı" yaz
+  }
   };
 
   return (

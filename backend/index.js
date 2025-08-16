@@ -278,7 +278,7 @@ const fetchUser = async (req, res, next) => {
     try {
       const data = jwt.verify(token, "secret_ecom");
       req.user = data.user;
-      next();
+      next(); 
     } catch (error) {
       res.status(401).send({ errors: "Please authenticate using valid token" });
     }

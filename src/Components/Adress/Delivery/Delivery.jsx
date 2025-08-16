@@ -33,26 +33,34 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
   // for checkbox
   const handleChoose = () => {
     if (selectedIndex !== null) {
-      const selectedAddress = adresList[selectedIndex];
-      onAddressSelect(selectedAddress);
+      onAddressSelect(adresList);
       onClose();
     }
   };
 
   const remove_adress = (id) => {
-    axios
-      .post("http://localhost:4000/removeaddress", { id })
-      .then((res) => {
-        if (res.data.success) {
-          setAdresList((prevList) =>
-            prevList.filter((adres) => adres._id !== id)
-          );
+  axios
+    .post("http://localhost:4000/removeaddress", { id }, {
+      headers: { "auth-token": localStorage.getItem("auth-token") }
+    })
+    .then((res) => {
+      if (res.data.success) {
+        const updatedList = adresList.filter((adres) => adres._id !== id);
+        setAdresList(updatedList);
+
+       
+        if (selectedIndex !== null && adresList[selectedIndex]?._id === id) {
+          setSelectedIndex(null);
         }
-      })
-      .catch((err) => {
-        console.error("Silme hatası:", err);
-      });
-  };
+
+        // Ana component'e bildir
+        onAddressSelect(updatedList);
+      }
+    })
+    .catch((err) => {
+      console.error("Silme hatası:", err);
+    });
+};
 
   return (
     <div>
