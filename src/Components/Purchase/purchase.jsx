@@ -10,7 +10,7 @@ export const Purchase = () => {
   return (
     <div className="purchase-container">
       <div className="purchase-title">
-        <h3>Sepetimdeki Ürünler</h3>
+        <h3>Products in My Cart</h3>
         <div className="purchase-total">
           <div className="purchase-total-item">
             <p>Total</p>

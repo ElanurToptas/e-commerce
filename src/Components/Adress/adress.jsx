@@ -38,14 +38,14 @@ export const Adress = () => {
   return (
     <div className="payment-adress">
       <div className="adress-title">
-        <h3>Teslimat Adresi</h3>
+        <h3>Delivery Address</h3>
       </div>
 
       <div className="adress-option-text-container">
         <div className="adress-text">
-          <p>Teslimat Adresi</p>
+          <p>Delivery Address</p>
           <button onClick={() => setShowModal(true)}>
-            + Yeni Adres Ekle/Değiştir
+            + Add
           </button>
         </div>
 
@@ -73,7 +73,7 @@ export const Adress = () => {
       )}
       {cartModel && (
         <Modal onClose={() => setCartModel(false)}>
-          <h2>Teslimat Adresi</h2>
+          <h2>Delivery Address</h2>
           <Delivery
             onAddressSelect={handleAddressSelect}
             onClose={() => setCartModel(false)}
