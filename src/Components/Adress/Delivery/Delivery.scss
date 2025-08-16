@@ -1,0 +1,35 @@
+.new-adres-btn{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 10px;
+    width: 98%;
+
+    .new {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 13px 24px;
+        border-radius: 8px;
+        border: 2px solid #f27a1a;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .choose{
+         display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 13px 24px;
+        border-radius: 8px;
+        border: 2px solid #f27a1a;
+        background-color: #f27a1a;
+        cursor: pointer;
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+    }
+}

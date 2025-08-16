@@ -37,7 +37,7 @@ export const AdresForm = () => {
       setErrors({});
 
       const { data } = await axios.post(
-        "http://localhost:4000/paymentcart",
+        "http://localhost:4000/adresscart",
         formData,
         { headers: { accept: "application/json" } }
       );

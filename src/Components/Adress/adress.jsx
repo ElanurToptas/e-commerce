@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./adress.scss";
-import {AdresForm} from './AdresForm/AdresForm'
+import { AdresForm } from "./AdresForm/AdresForm";
+import { Delivery } from "./Delivery/Delivery";
 import Modal from "../Adress/model/model"; // az sonra oluşturacağız
-
 
 export const Adress = () => {
   const [showModal, setShowModal] = useState(false);
+  const [new_adress, setNew_adress] = useState(null);
+  const [cartModel, setCartModel] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/adress")
+      .then((response) => {
+        const lastAddress = response.data[response.data.length - 1];
+        console.log("Son adres:", lastAddress);
+        setNew_adress(lastAddress);
+      })
+      .catch((error) => {
+        console.error("Veriler alınırken hata oluştu:", error);
+      });
+  }, []);
+
+  const handleAddressSelect = (selectedAddress) => {
+    setNew_adress(selectedAddress);
+  };
 
   return (
     <div className="payment-adress">
@@ -22,8 +42,18 @@ export const Adress = () => {
         </div>
 
         <div className="add-adress-selector">
-          <p>gfd</p>
-          <i className="fa-solid fa-arrow-right"></i>
+          {new_adress ? (
+            <p>
+              {new_adress.name} {new_adress.surname}/{new_adress.number}/
+              {new_adress.city}/{new_adress.adress}
+            </p>
+          ) : (
+            <p>Adres bulunamadı</p>
+          )}
+          <i
+            onClick={() => setCartModel(true)}
+            className="fa-solid fa-arrow-right"
+          ></i>
         </div>
       </div>
 
@@ -31,6 +61,15 @@ export const Adress = () => {
         <Modal onClose={() => setShowModal(false)}>
           <h2>Adres Ekle</h2>
           <AdresForm />
+        </Modal>
+      )}
+      {cartModel && (
+        <Modal onClose={() => setCartModel(false)}>
+          <h2>Teslimat Adresi</h2>
+          <Delivery
+            onAddressSelect={handleAddressSelect}
+            onClose={() => setCartModel(false)}
+          />
         </Modal>
       )}
     </div>

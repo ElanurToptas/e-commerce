@@ -345,10 +345,9 @@ const Adres = mongoose.model("Adres", {
   },
 });
 
-app.post("/paymentcart", async (req, res) => {
+app.post("/adresscart", async (req, res) => {
   try {
     const { name, surname, number, city, adress } = req.body;
-
 
     const newAdres = new Adres({
       name,
@@ -367,7 +366,7 @@ app.post("/paymentcart", async (req, res) => {
     });
 
   } catch (err) {
-    console.error("paymentcart hatası:", err);
+    console.error("adresscart hatası:", err);
     res.status(500).json({
       success: false,
       error: "Sunucu hatası: " + err.message,
@@ -375,5 +374,7 @@ app.post("/paymentcart", async (req, res) => {
   }
 });
 
-
-
+app.get("/adress", async (req, res) => {
+  let adress = await Adres.find({});
+  res.json(adress);
+});

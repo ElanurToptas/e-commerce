@@ -1,0 +1,29 @@
+.item {
+  display: flex;
+  background-color: #fef4eb;
+  border: 1px solid #f27a1a;
+  padding: 18px;
+  margin-top: 12px;
+  border-radius: 8px;
+  width: 92%;
+
+  .adres-item {
+    margin-left: 10px;
+    .adres-item-header {
+      display: flex;
+      i {
+        margin-right: 5px;
+        margin-top: 8px;
+      }
+      p {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .trash {
+    margin-top: 15px;
+    margin-left: auto;
+    cursor: pointer;
+  }
+}
