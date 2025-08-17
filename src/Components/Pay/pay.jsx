@@ -46,7 +46,9 @@ export const Pay = () => {
           <button onClick={() => setShowModal(true)}>+ Add Cart</button>
         </div>
         <div className="add-cart-selectors">
-          <img src={ziraat} alt="" />
+          {new_cart?.cartNumber?.trim() && (
+            <img src={ziraat} alt="Kart Görseli" />
+          )}
           <div className="add-cart-selector">
             {new_cart ? (
               <p>
@@ -69,7 +71,7 @@ export const Pay = () => {
         </Modal>
       )}
 
-       {cartModel && (
+      {cartModel && (
         <Modal onClose={() => setCartModel(false)}>
           <h2>Delivery Address</h2>
           <Credit
@@ -77,7 +79,7 @@ export const Pay = () => {
             onClose={() => setCartModel(false)}
           />
         </Modal>
-          )}
+      )}
     </div>
   );
 };

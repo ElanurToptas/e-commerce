@@ -9,7 +9,7 @@ export const CreditItem = (props) => {
     <div className="add-cart-item">
          <input type="checkbox" checked={isSelected} onChange={onSelect} />
              <div className="cart-item">
-                {cartNumber && (
+                {cartNumber?.trim() && (
                     <img src={ziraat} alt="Card" />
                 )}
              <div className="add-cart-selector">
