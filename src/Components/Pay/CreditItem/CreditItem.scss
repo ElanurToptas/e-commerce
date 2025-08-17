@@ -1,0 +1,26 @@
+   .add-cart-selectors {
+      border-radius: 8px;
+      border: 1px solid #f27a1a;
+      width: 335px;
+      padding: 14px 17px;
+      .add-cart-selector {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #333;
+        img {
+          max-width: 80px;
+        }
+        p {
+          width: 335px;
+          border: none;
+          outline: none;
+        }
+        i {
+          color: #f27a1a;
+          font-size: 10px;
+          cursor: pointer;
+        }
+      }
+    }

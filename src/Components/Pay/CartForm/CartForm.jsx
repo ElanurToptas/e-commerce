@@ -53,14 +53,12 @@ export const CartForm = () => {
       }
     } catch (err) {
       if (err.name === "ValidationError") {
-        // Yup alan hataları
         const fieldErrors = {};
         err.inner.forEach((e) => {
           if (!fieldErrors[e.path]) fieldErrors[e.path] = e.message;
         });
         setErrors(fieldErrors);
       } else if (err.response?.data?.errors) {
-        // Backend (HTTP 4xx/5xx) hatası
         setErrors({ general: err.response.data.errors });
       }
   };}
