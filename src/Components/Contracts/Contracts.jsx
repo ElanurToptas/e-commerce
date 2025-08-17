@@ -2,7 +2,13 @@ import React from "react";
 import "./Contracts.scss";
 import { ConstractsItem } from "./ConstractsItem/ConstractsItem";
 
-export const Contracts = () => {
+export const Contracts = ({ onCheckChange }) => {
+
+  const handleCheckboxChange = (e) => {
+    const checked = e.target.checked;
+    onCheckChange(checked); 
+  };
+
   return (
     <div className="contracts-container">
       <div className="contracts-title">
@@ -94,6 +100,12 @@ Cayma Hakkı Kullanılabilen Ürünleri Nasıl İade Ederim?
 3- Aşağıdaki ürün gruplarının ambalajı açılmamış, denenmemiş, bozulmamış ve kullanılmamış olmaları halinde iadesi kabul edilir.
 • Sağlık ve hijyen açısından uygun olmayan ürünlerin (Kozmetik ve kişisel bakım ürünleri,parfüm, epilatör, tıraş makinesi, kulaklık, iç giyim ürünleri, mayo, bikini vb.)`}
       />
+      <div className="checkbox">
+        <input type="checkbox"  onChange={handleCheckboxChange} />
+        <label >
+          I have read and agree to the Terms and Conditions
+        </label>
+      </div>
     </div>
   );
 };
