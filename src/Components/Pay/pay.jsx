@@ -27,7 +27,7 @@ export const Pay = () => {
       });
   }, []);
 
-  const handleAddressSelect = (selectedCart) => {
+  const handleCartSelect = (selectedCart) => {
     if (selectedCart.length > 0) {
       setNew_cart(selectedCart[selectedCart.length - 1]);
     } else {
@@ -73,7 +73,7 @@ export const Pay = () => {
         <Modal onClose={() => setCartModel(false)}>
           <h2>Delivery Address</h2>
           <Credit
-            onAddressSelect={handleAddressSelect}
+            onCartSelect={handleCartSelect}
             onClose={() => setCartModel(false)}
           />
         </Modal>

@@ -3,13 +3,15 @@ import './CreditItem.scss';
 import ziraat from '../../Assets/ziraat.png';
 
 
-export const CredirItem = (props) => {
+export const CreditItem = (props) => {
     const {cartNumber,expirtDate, onSelect, isSelected,onDelete} = props;
   return (
-    <div className="add-cart-selectors">
+    <div className="add-cart-item">
          <input type="checkbox" checked={isSelected} onChange={onSelect} />
              <div className="cart-item">
-                <img src={ziraat} alt="" />
+                {cartNumber && (
+                    <img src={ziraat} alt="Card" />
+                )}
              <div className="add-cart-selector">
               <p>{cartNumber}</p>
                 <p>{expirtDate}</p>
