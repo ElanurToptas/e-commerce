@@ -392,4 +392,72 @@ app.post("/removeaddress", fetchUser, async (req, res) => {
   }
 });
 
+//
+const Cart = mongoose.model("Cart", {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    required: true
+  },
+  cartNumber: String,
+    expiryDate: String,
+    cvv: String,
+  date: { type: Date, default: Date.now },
+});
+
+
+app.post("/paymentcart",  fetchUser, async (req, res) => {
+  console.log("paymentcart", req.body);
+  try {
+    const { cartNumber,expiryDate,cvv } = req.body;
+    const newCart = new Cart({
+      userId: req.user.id,
+      cartNumber,
+      expiryDate,
+      cvv 
+    });
+
+    await newCart .save();
+
+    res.status(201).json({
+      success: true,
+      message: "Adres bilgileri başarıyla kaydedildi.",
+      cartId: newCart._id,
+    });
+
+  } catch (err) {
+    console.error("adresscart hatası:", err);
+    res.status(500).json({
+      success: false,
+      error: "Sunucu hatası: " + err.message,
+    });
+  }
+});
+
+app.get("/paymentt", fetchUser, async (req, res) => {
+  try {
+    const payment = await Cart.find({ userId: req.user.id });
+    res.json(payment);
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Sunucu hatası" });
+  }
+});
+
+
+app.post("/removecart", fetchUser, async (req, res) => {
+  try {
+    const payment = await Cart.findById(req.body.id);
+    if (!payment) return res.json({ success: false, message: "Kart bulunamadı" });
+
+    if (payment.userId.toString() !== req.user.id) {
+      return res.status(403).json({ success: false, message: "Yetkisiz işlem" });
+    }
+
+    await payment.deleteOne();
+    res.json({ success: true, message: "Kart silindi" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Sunucu hatası" });
+  }
+});
+
 
