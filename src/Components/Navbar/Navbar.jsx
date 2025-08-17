@@ -87,7 +87,7 @@ export const Navbar = () => {
       <div className="nav-login-cart">
          {localStorage.getItem("auth-token") && userName && (
           <span style={{ marginRight: "12px" }}>
-            {"Hoşgeldin "}{userName}
+            {"Welcome "}{userName}
           </span>
         )}
         <Link to="/cart">

@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.contracts-Item{
+ margin: 10px 0px;
+    width: 100%;
+
+ .contracts-content{
+    p{
+        padding: 10px 0px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .contracts-text{
+     height: 150px;             
+    overflow-y: auto;          
+    border: 1px solid #ccc;   
+    border-radius: 8px; 
+    padding: 10px;    
+    background-color: #fafafa;
+    color: #999;
+
+    p{
+        font-size: 12px;
+    }
+ 
+  }
+ }
+  
+}

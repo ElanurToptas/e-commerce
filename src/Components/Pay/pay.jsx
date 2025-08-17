@@ -55,7 +55,7 @@ export const Pay = () => {
                 {new_cart.cartNumber}-{new_cart.expiryDate}
               </p>
             ) : (
-              <p>Kayıtlı Kart bulunamadı</p>
+              <p>Registered card not found</p>
             )}
             <i
               onClick={() => setCartModel(true)}

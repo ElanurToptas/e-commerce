@@ -379,7 +379,7 @@ app.get("/adress", fetchUser, async (req, res) => {
 app.post("/removeaddress", fetchUser, async (req, res) => {
   try {
     const address = await Adres.findById(req.body.id);
-    if (!address) return res.json({ success: false, message: "Adres bulunamadı" });
+    if (!address) return res.json({ success: false, message: "Address not found" });
 
     if (address.userId.toString() !== req.user.id) {
       return res.status(403).json({ success: false, message: "Yetkisiz işlem" });

@@ -80,7 +80,7 @@ export const Delivery = ({ onAddressSelect, onClose }) => {
             />
           ))
         ) : (
-          <p>Adres bulunamadı</p>
+          <p>Address not found</p>
         )}
         <div className="new-adres-btn">
           <button className="new" onClick={() => setShowForm(true)}>

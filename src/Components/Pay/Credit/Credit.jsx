@@ -79,7 +79,7 @@ export const Credit = ({ onCartSelect, onClose }) => {
           />
         ))
         ):(
-           <p>Kayıtlı Kart bulunamadı</p> 
+           <p>Registered card not found</p> 
         )}
         <div className="new-adres-btn">
           <button className="new" onClick={() => setShowForm(true)}>

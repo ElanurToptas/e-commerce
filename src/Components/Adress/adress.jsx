@@ -31,7 +31,7 @@ export const Adress = () => {
     if (selectedAddress.length > 0) {
     setNew_adress(selectedAddress[selectedAddress.length - 1]);
   } else {
-    setNew_adress(null); // Liste boşsa "Adres bulunamadı" yaz
+    setNew_adress(null); // Liste boşsa "Address not found" yaz
   }
   };
 
@@ -56,7 +56,7 @@ export const Adress = () => {
               {new_adress.city}/{new_adress.adress}
             </p>
           ) : (
-            <p>Adres bulunamadı</p>
+            <p>Address not found</p>
           )}
           <i
             onClick={() => setCartModel(true)}
