@@ -15,3 +15,32 @@
 .order:disabled {
   background-color: #ccc !important;
   cursor: not-allowed;}
+
+@media (max-width: 1280px) {
+    .order{
+      margin: 40px 480px;
+    }
+    
+}
+
+@media (max-width: 1024px) {
+    .order{
+      margin: 40px 400px;
+    }
+    
+}
+
+@media (max-width: 800px) {
+    .order{
+      margin: 40px 260px;
+    }
+    
+}
+
+
+@media (max-width: 500px) {
+    .order{
+      margin: 40px 100px;
+    }
+    
+}
