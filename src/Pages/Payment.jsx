@@ -8,6 +8,8 @@ import { Contracts } from "../Components/Contracts/Contracts";
 export const Payment = () => {
   const [orderCart, setOrderCart] = useState(false);
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [hasCard, setHasCard] = useState(false);
+  const [hasAddress, setHasAddress] = useState(false);
 
   const showCart = () => {
     if (isCheckboxChecked) {
@@ -18,12 +20,12 @@ export const Payment = () => {
   return (
     <div>
       <Purchase />
-      <Adress />
-      <Pay />
+      <Adress onCheckAddress={setHasAddress}/>
+      <Pay onCardCheck={setHasCard}/>
       <Contracts onCheckChange={setIsCheckboxChecked} />
       <button
         onClick={showCart}
-        disabled={!isCheckboxChecked}
+        disabled={!isCheckboxChecked || !hasCard || !hasAddress}
         className="order"
       >
         Order

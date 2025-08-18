@@ -5,7 +5,7 @@ import { AdresForm } from "./AdresForm/AdresForm";
 import { Delivery } from "./Delivery/Delivery";
 import Modal from "../Adress/model/model"; // az sonra oluşturacağız
 
-export const Adress = () => {
+export const Adress = ({onCheckAddress}) => {
   const [showModal, setShowModal] = useState(false);
   const [new_adress, setNew_adress] = useState(null);
   const [cartModel, setCartModel] = useState(false);
@@ -21,17 +21,27 @@ export const Adress = () => {
         const lastAddress = response.data[response.data.length - 1];
         console.log("Son adres:", lastAddress);
         setNew_adress(lastAddress);
+
+         if (onCheckAddress) {
+          onCheckAddress(!!lastAddress);
+        }
       })
       .catch((error) => {
         console.error("Veriler alınırken hata oluştu:", error);
+         if (onCheckAddress) {
+          onCheckAddress(false);
+        }
       });
   }, []);
 
   const handleAddressSelect = (selectedAddress) => {
     if (selectedAddress.length > 0) {
-    setNew_adress(selectedAddress[selectedAddress.length - 1]);
+    const last = setNew_adress(selectedAddress[selectedAddress.length - 1]);
+      setNew_adress(last);
+      onCheckAddress && onCheckAddress(true);
   } else {
     setNew_adress(null); // Liste boşsa "Address not found" yaz
+    onCheckAddress && onCheckAddress(false);
   }
   };
 

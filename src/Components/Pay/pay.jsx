@@ -5,7 +5,7 @@ import Modal from "../Adress/model/model";
 import { CartForm } from "./CartForm/CartForm";
 import { Credit } from "./Credit/Credit";
 import ziraat from "../Assets/ziraat.png";
-export const Pay = () => {
+export const Pay = ({ onCardCheck }) => {
   const [showModal, setShowModal] = useState(false);
   const [new_cart, setNew_cart] = useState(null);
   const [cartModel, setCartModel] = useState(false);
@@ -21,17 +21,27 @@ export const Pay = () => {
         const lastCart = response.data[response.data.length - 1];
         console.log("Son Cart:", lastCart);
         setNew_cart(lastCart);
+         // Kart olup olmadığını üst bileşene bildir
+        if (onCardCheck) {
+          onCardCheck(!!lastCart);
+        }
       })
       .catch((error) => {
         console.error("Veriler alınırken hata oluştu:", error);
+        if (onCardCheck) {
+          onCardCheck(false);
+        }
       });
   }, []);
 
   const handleCartSelect = (selectedCart) => {
     if (selectedCart.length > 0) {
-      setNew_cart(selectedCart[selectedCart.length - 1]);
+      const last = setNew_cart(selectedCart[selectedCart.length - 1]);
+       setNew_cart(last);
+      onCardCheck && onCardCheck(true);
     } else {
       setNew_cart(null);
+      onCardCheck && onCardCheck(false);
     }
   };
 
