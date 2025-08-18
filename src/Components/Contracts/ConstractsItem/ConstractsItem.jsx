@@ -6,7 +6,7 @@ export const ConstractsItem = (props) => {
   return (
      <div className="contracts-Item">
       <div className="contracts-content">
-        <p>{header}</p>
+        <p className='contracts-header'>{header}</p>
       <div className="contracts-text">
         <p>{inHeader}</p>
         {inText.split("\n").map((line, index) => (

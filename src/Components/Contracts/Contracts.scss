@@ -32,3 +32,73 @@
     }
   }
 }
+
+@media(max-width:1280px){
+  
+.contracts-container{
+  .contracts-title{
+    height: 35px;
+    padding: 5px 20px;
+
+    h3 {
+      font-size: 16px;
+    }
+  }
+}
+}
+
+@media(max-width:1024px){
+  
+.contracts-container{
+   margin: 20px 80px;
+  .contracts-title{
+    height: 30px;
+  }
+
+  .checkbox{
+    label{
+      font-size:16px ;
+    }
+  }
+}
+
+
+}
+
+
+@media(max-width:800px){
+  
+.contracts-container{
+   margin: 20px 50px;
+  .contracts-title{
+    h3{
+      font-size: 15px;
+    }
+  }
+
+  
+  .checkbox{
+    label{
+      font-size:15px ;
+    }
+  }
+}
+}
+
+@media(max-width:500px){
+  
+.contracts-container{
+   margin: 20px 10px;
+  .contracts-title{
+     padding: 6px 20px;
+    h3{
+      font-size: 14px;
+    }
+  }
+  .checkbox{
+    label{
+      font-size:14px ;
+    }
+  }
+}
+}
